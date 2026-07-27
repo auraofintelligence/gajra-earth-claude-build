@@ -59,6 +59,15 @@
     <div class="wrap reveal">
       <h2>By month</h2>
       <p><a href="2026-07.html">July 2026</a>: the watch begins. <span class="faint">1 dated entry.</span></p>
+      <p class="muted">Each month page carries a keyword filter, so you can pull out every data centre item, or everything from the Pacific, or everything tagged against one of the open questions, without reading the whole month.</p>
+    </div>
+  </section>
+
+  <section class="pad-s">
+    <div class="wrap reveal">
+      <h2>Keywords</h2>
+      <p>Every entry is tagged from a fixed vocabulary held in <a href="../data/watch-keywords.json" rel="noopener">data/watch-keywords.json</a>, grouped as region, who acted, and what it was about. The list is fixed on purpose: keywords invented fresh each morning drift within weeks, and an archive where the same thing has six names is not searchable, it just looks like it is. New terms get added to that file deliberately, and the run that adds one says so.</p>
+      <p>Two of them are not topics but open questions this project is carrying: <span class="chip q">Q9</span> who the many are and how they are actually asked, and <span class="chip q">Q10</span> the accounts nobody reads, meaning any case where a non-human interest changed a decision. Both are set out on <a href="../questions.html">the questions page</a>.</p>
     </div>
   </section>
 
@@ -67,7 +76,7 @@
       <h2>Three copies, on purpose</h2>
       <p>The record exists in three forms, so that losing one does not lose the archive.</p>
       <p><strong>These pages.</strong> Readable by a person with a browser and no tools, which is the form that matters most and the one least likely to survive a redesign on its own.</p>
-      <p><strong>A machine-readable file.</strong> Every item ever logged, one per line, with its date, scan time, source URL and question tags: <a href="../data/watch.jsonl" rel="noopener">data/watch.jsonl</a>. Append-only. If the site is rebuilt in another shape, the whole watch can be re-rendered from this file without asking anyone to remember what was there.</p>
+      <p><strong>A machine-readable file.</strong> Every item ever logged, one per line, with its date, scan time, source URL, question tags and keywords: <a href="../data/watch.jsonl" rel="noopener">data/watch.jsonl</a>. Append-only. If the site is rebuilt in another shape, the whole watch can be re-rendered from this file without asking anyone to remember what was there.</p>
       <p><strong>The commit history.</strong> Every change to every page, including the corrections, is in the <a href="https://github.com/auraofintelligence/gajra-earth-claude-build/commits/main" rel="noopener">public repository</a>. That is the layer that shows the edits, not just the result.</p>
       <p class="muted">Commit history alone was the original plan and it was not good enough: it is a record only for people who use git, and it can be rewritten by anyone with push access. The pages and the data file are the parts a stranger can check.</p>
     </div>

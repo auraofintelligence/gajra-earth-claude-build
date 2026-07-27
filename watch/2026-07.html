@@ -12,6 +12,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <script defer src="../assets/reveal.js"></script>
 <script defer src="../assets/aurora.js"></script>
+<script defer src="../assets/watch-filter.js"></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,23 +45,89 @@
     </div>
   </section>
 
+  <section class="pad-s">
+    <div class="wrap reveal">
+      <div class="kfilter">
+        <label for="kf">Filter this month by keyword, body or country. Try <code>data-centres</code>, <code>indigenous</code>, <code>pacific</code> or <code>Q10</code>.</label>
+        <input id="kf" type="search" autocomplete="off" spellcheck="false" placeholder="type to filter">
+        <p class="faint" style="font-size:0.95rem;margin:0.5rem 0 0" id="kf-count" role="status"></p>
+      </div>
+      <p class="muted">Keywords come from a <a href="../data/watch-keywords.json" rel="noopener">fixed list</a> rather than being invented per entry, so the same thing is always called the same thing. Your browser's own find command works on this page too, and the filter is only an extra.</p>
+    </div>
+  </section>
+
   <!-- MONTH:INSERT rolled-off sections go directly below this line, newest first -->
 
   <section class="pad-s">
     <div class="wrap reveal">
       <h2>Tuesday 28 July 2026</h2>
       <p class="faint" style="font-size:1rem">Scanned 02:03 Brisbane (UTC+10).</p>
-      <p><strong>China.</strong> President Xi Jinping told the opening of the World Artificial Intelligence Conference in Shanghai on 17 July that the world needs a just and equitable system for governing AI, and announced a World Artificial Intelligence Cooperation Organisation with 29 founding member countries plus joint AI application centres to be built with ASEAN, the League of Arab States, the African Union, CELAC, the Shanghai Cooperation Organisation and BRICS. <a href="https://english.news.cn/20260717/ce32e833ab5d47f883ad44e1f73cb634/c.html" rel="noopener">english.news.cn</a></p>
-      <p><strong>ASEAN.</strong> Secretary-General Kao Kim Hourn set out the bloc's approach to AI governance at the high-level meeting held alongside that Shanghai conference on 18 July, saying governments, international organisations, industry and universities will all be needed to handle what is coming. <a href="https://indiplomacy.com/2026/07/21/dr-kao-kim-hourn-presents-aseans-ai-governance-vision-at-waic-2026-in-shanghai/" rel="noopener">indiplomacy.com</a></p>
-      <p><strong>African Union.</strong> The African Union Commission and Smart Africa agreed in Geneva on 20 July to coordinate delivery of the Continental AI Strategy, with an action plan, a financing plan and AI governance guidelines in preparation, alongside a proposed African Union AI fund and a pan-African AI centre. <a href="https://techreviewafrica.com/news/6362/african-union-smart-africa-align-efforts-to-promote-continental-ai-strategy" rel="noopener">techreviewafrica.com</a></p>
-      <p><strong>Pacific Islands Forum.</strong> Forum ICT ministers met in Port Moresby on 24 July with Papua New Guinea taking the chair, and put artificial intelligence, safer online spaces and how the region measures its own digital progress on the agenda under the Lagatoi Declaration. <a href="https://pina.com.fj/2026/07/24/pacific-ict-ministers-focus-on-digital-progress-ai-and-online-safety/" rel="noopener">pina.com.fj</a></p>
-      <p><strong>Caribbean.</strong> The Caribbean Telecommunications Union closed its Caribbean Artificial Intelligence Forum in Trinidad and Tobago on 25 July and released the Caribbean AI Task Force report, which asks CARICOM states to harmonise AI policy and treat data sovereignty as a shared regional asset. <a href="https://jamaica-gleaner.com/article/news/20260725/caribbean-charts-united-course-artificial-intelligence" rel="noopener">jamaica-gleaner.com</a></p>
-      <p><strong>United Nations, Indigenous rights.</strong> At the UN Expert Mechanism on the Rights of Indigenous Peoples in July, delegates from Sámi, Inuit and Ojibwe organisations argued that data centre projects should have to meet the standard of free, prior and informed consent, citing a Chilean environmental tribunal's suspension of a Google site in Santiago and a complaint brought by the Anacé people against a data centre in north-east Brazil. <a href="https://news.mongabay.com/2026/07/indigenous-advocates-push-for-rights-protections-around-ai-data-centers/" rel="noopener">news.mongabay.com</a> <strong>[Q9]</strong> <strong>[Q10]</strong></p>
-      <p><strong>Civil society coalitions.</strong> Five coalitions published a joint read-out of the opening session of the UN Global Dialogue on AI Governance on 24 July, reporting that women and Indigenous Peoples were insufficiently represented across the talks and that chances for governments and other stakeholders to speak to each other directly stayed limited. <a href="https://www.apc.org/en/pubs/civil-society-read-out-report-first-un-global-dialogue-ai-governance" rel="noopener">apc.org</a> <strong>[Q9]</strong></p>
-      <p><strong>Colombia.</strong> Two artificial intelligence bills, one in the Senate and one in the Chamber of Representatives, had cleared committee and remained in play as of 16 July, setting out rules for the development and supervision of AI systems with the science ministry to lead implementation. <a href="https://www.sercolombiano.com/2026/07/16/colombia-avanza-en-la-regulacion-de-la-inteligencia-artificial-y-se-posiciona-entre-los-paises-lideres-de-america-latina/" rel="noopener">sercolombiano.com</a></p>
-      <p><strong>Australia.</strong> Prime Minister Anthony Albanese said on 15 July that large data centres will be required to underwrite their own new power supply, pay their share of connection costs and meet water efficiency standards under a mandatory national framework, to be put to national cabinet next month and to parliament early next year. <a href="https://www.thenewdaily.com.au/life/tech/2026/07/15/pm-standards-ai-data-centres" rel="noopener">thenewdaily.com.au</a> <strong>[Q10]</strong></p>
-      <p><strong>New York.</strong> Governor Kathy Hochul signed an executive order on 15 July halting new state environmental permits for data centres while regulators take up to a year to write rules on energy use, water use and protections for surrounding communities. <a href="https://nystateofpolitics.com/state-of-politics/new-york/politics/2026/07/15/data-center-moratorium-draws-mixed-reactions" rel="noopener">nystateofpolitics.com</a> <strong>[Q10]</strong></p>
-      <p><strong>Montgomery County, Maryland.</strong> Two county council committees voted on 22 July to advance an 18-month pause on new data centres and zoning that would block any facility above 25 megawatts, backed on the record by a coalition of more than 30 community, environmental and faith groups. <a href="https://www.foodandwaterwatch.org/2026/07/22/montgomery-county-md-committees-advance-18-month-data-center-moratorium/" rel="noopener">foodandwaterwatch.org</a> <strong>[Q9]</strong></p>
+      <article class="entry" data-k="global asia national-government new-institution summit ai-strategy global-south">
+        <h3>China</h3>
+        <p>President Xi Jinping told the opening of the World Artificial Intelligence Conference in Shanghai on 17 July that the world needs a just and equitable system for governing AI, and announced a World Artificial Intelligence Cooperation Organisation with 29 founding member countries plus joint AI application centres to be built with ASEAN, the League of Arab States, the African Union, CELAC, the Shanghai Cooperation Organisation and BRICS.</p>
+        <p class="src"><a href="https://english.news.cn/20260717/ce32e833ab5d47f883ad44e1f73cb634/c.html" rel="noopener">english.news.cn</a></p>
+        <p class="keys"><span>global</span> <span>asia</span> <span>national-government</span> <span>new-institution</span> <span>summit</span> <span>ai-strategy</span> <span>global-south</span></p>
+      </article>
+      <article class="entry" data-k="asia regional-bloc guidelines ai-strategy">
+        <h3>ASEAN</h3>
+        <p>Secretary-General Kao Kim Hourn set out the bloc's approach to AI governance at the high-level meeting held alongside that Shanghai conference on 18 July, saying governments, international organisations, industry and universities will all be needed to handle what is coming.</p>
+        <p class="src"><a href="https://indiplomacy.com/2026/07/21/dr-kao-kim-hourn-presents-aseans-ai-governance-vision-at-waic-2026-in-shanghai/" rel="noopener">indiplomacy.com</a></p>
+        <p class="keys"><span>asia</span> <span>regional-bloc</span> <span>guidelines</span> <span>ai-strategy</span></p>
+      </article>
+      <article class="entry" data-k="africa regional-bloc ai-strategy funding capacity-building">
+        <h3>African Union</h3>
+        <p>The African Union Commission and Smart Africa agreed in Geneva on 20 July to coordinate delivery of the Continental AI Strategy, with an action plan, a financing plan and AI governance guidelines in preparation, alongside a proposed African Union AI fund and a pan-African AI centre.</p>
+        <p class="src"><a href="https://techreviewafrica.com/news/6362/african-union-smart-africa-align-efforts-to-promote-continental-ai-strategy" rel="noopener">techreviewafrica.com</a></p>
+        <p class="keys"><span>africa</span> <span>regional-bloc</span> <span>ai-strategy</span> <span>funding</span> <span>capacity-building</span></p>
+      </article>
+      <article class="entry" data-k="pacific regional-bloc ai-strategy online-safety">
+        <h3>Pacific Islands Forum</h3>
+        <p>Forum ICT ministers met in Port Moresby on 24 July with Papua New Guinea taking the chair, and put artificial intelligence, safer online spaces and how the region measures its own digital progress on the agenda under the Lagatoi Declaration.</p>
+        <p class="src"><a href="https://pina.com.fj/2026/07/24/pacific-ict-ministers-focus-on-digital-progress-ai-and-online-safety/" rel="noopener">pina.com.fj</a></p>
+        <p class="keys"><span>pacific</span> <span>regional-bloc</span> <span>ai-strategy</span> <span>online-safety</span></p>
+      </article>
+      <article class="entry" data-k="caribbean regional-bloc data-sovereignty ai-strategy capacity-building">
+        <h3>Caribbean</h3>
+        <p>The Caribbean Telecommunications Union closed its Caribbean Artificial Intelligence Forum in Trinidad and Tobago on 25 July and released the Caribbean AI Task Force report, which asks CARICOM states to harmonise AI policy and treat data sovereignty as a shared regional asset.</p>
+        <p class="src"><a href="https://jamaica-gleaner.com/article/news/20260725/caribbean-charts-united-course-artificial-intelligence" rel="noopener">jamaica-gleaner.com</a></p>
+        <p class="keys"><span>caribbean</span> <span>regional-bloc</span> <span>data-sovereignty</span> <span>ai-strategy</span> <span>capacity-building</span></p>
+      </article>
+      <article class="entry" data-k="global latin-america un indigenous data-centres consent litigation environment">
+        <h3>United Nations, Indigenous rights <span class="chip q">Q9</span> <span class="chip q">Q10</span></h3>
+        <p>At the UN Expert Mechanism on the Rights of Indigenous Peoples in July, delegates from Sámi, Inuit and Ojibwe organisations argued that data centre projects should have to meet the standard of free, prior and informed consent, citing a Chilean environmental tribunal's suspension of a Google site in Santiago and a complaint brought by the Anacé people against a data centre in north-east Brazil.</p>
+        <p class="src"><a href="https://news.mongabay.com/2026/07/indigenous-advocates-push-for-rights-protections-around-ai-data-centers/" rel="noopener">news.mongabay.com</a></p>
+        <p class="keys"><span>global</span> <span>latin-america</span> <span>un</span> <span>indigenous</span> <span>data-centres</span> <span>consent</span> <span>litigation</span> <span>environment</span></p>
+      </article>
+      <article class="entry" data-k="global un civil-society indigenous participation consultation">
+        <h3>Civil society coalitions <span class="chip q">Q9</span></h3>
+        <p>Five coalitions published a joint read-out of the opening session of the UN Global Dialogue on AI Governance on 24 July, reporting that women and Indigenous Peoples were insufficiently represented across the talks and that chances for governments and other stakeholders to speak to each other directly stayed limited.</p>
+        <p class="src"><a href="https://www.apc.org/en/pubs/civil-society-read-out-report-first-un-global-dialogue-ai-governance" rel="noopener">apc.org</a></p>
+        <p class="keys"><span>global</span> <span>un</span> <span>civil-society</span> <span>indigenous</span> <span>participation</span> <span>consultation</span></p>
+      </article>
+      <article class="entry" data-k="latin-america parliament ai-law">
+        <h3>Colombia</h3>
+        <p>Two artificial intelligence bills, one in the Senate and one in the Chamber of Representatives, had cleared committee and remained in play as of 16 July, setting out rules for the development and supervision of AI systems with the science ministry to lead implementation.</p>
+        <p class="src"><a href="https://www.sercolombiano.com/2026/07/16/colombia-avanza-en-la-regulacion-de-la-inteligencia-artificial-y-se-posiciona-entre-los-paises-lideres-de-america-latina/" rel="noopener">sercolombiano.com</a></p>
+        <p class="keys"><span>latin-america</span> <span>parliament</span> <span>ai-law</span></p>
+      </article>
+      <article class="entry" data-k="pacific national-government data-centres standards water energy grid">
+        <h3>Australia <span class="chip q">Q10</span></h3>
+        <p>Prime Minister Anthony Albanese said on 15 July that large data centres will be required to underwrite their own new power supply, pay their share of connection costs and meet water efficiency standards under a mandatory national framework, to be put to national cabinet next month and to parliament early next year.</p>
+        <p class="src"><a href="https://www.thenewdaily.com.au/life/tech/2026/07/15/pm-standards-ai-data-centres" rel="noopener">thenewdaily.com.au</a></p>
+        <p class="keys"><span>pacific</span> <span>national-government</span> <span>data-centres</span> <span>standards</span> <span>water</span> <span>energy</span> <span>grid</span></p>
+      </article>
+      <article class="entry" data-k="north-america regulator data-centres moratorium water energy">
+        <h3>New York <span class="chip q">Q10</span></h3>
+        <p>Governor Kathy Hochul signed an executive order on 15 July halting new state environmental permits for data centres while regulators take up to a year to write rules on energy use, water use and protections for surrounding communities.</p>
+        <p class="src"><a href="https://nystateofpolitics.com/state-of-politics/new-york/politics/2026/07/15/data-center-moratorium-draws-mixed-reactions" rel="noopener">nystateofpolitics.com</a></p>
+        <p class="keys"><span>north-america</span> <span>regulator</span> <span>data-centres</span> <span>moratorium</span> <span>water</span> <span>energy</span></p>
+      </article>
+      <article class="entry" data-k="north-america local-government civil-society data-centres moratorium planning">
+        <h3>Montgomery County, Maryland <span class="chip q">Q9</span></h3>
+        <p>Two county council committees voted on 22 July to advance an 18-month pause on new data centres and zoning that would block any facility above 25 megawatts, backed on the record by a coalition of more than 30 community, environmental and faith groups.</p>
+        <p class="src"><a href="https://www.foodandwaterwatch.org/2026/07/22/montgomery-county-md-committees-advance-18-month-data-center-moratorium/" rel="noopener">foodandwaterwatch.org</a></p>
+        <p class="keys"><span>north-america</span> <span>local-government</span> <span>civil-society</span> <span>data-centres</span> <span>moratorium</span> <span>planning</span></p>
+      </article>
       <p class="muted">Left out under the defence rule: a UN News report on the Secretary-General's governance call was mostly about autonomous weapons, so it is not logged here.</p>
     </div>
   </section>

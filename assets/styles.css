@@ -307,6 +307,76 @@ hr.rule {
 .chip.invitation { border-color: var(--aurora);  color: var(--aurora); }
 .chip.archived   { border-color: var(--oxygen);  color: var(--oxygen); }
 
+/* ---------- the watch: one entry, one heading ----------
+   Each logged item is its own article with a real heading, so the page can be
+   skimmed by body or country and read by a screen reader as a list of things
+   rather than one undifferentiated run of paragraphs. */
+
+.entry {
+  padding-top: 1.15rem;
+  margin: 0 0 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.entry:first-of-type { padding-top: 0; border-top: 0; }
+.entry h3 {
+  margin: 0 0 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.entry p { margin: 0 0 0.45rem; }
+.entry .src {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.chip.q {
+  font-size: 0.78rem;
+  padding: 0.1rem 0.5rem;
+  border-color: var(--violet);
+  color: var(--violet);
+  vertical-align: baseline;
+}
+
+/* Keywords: a fixed vocabulary, so the archive stays searchable as it grows.
+   Quiet by design. They are for finding things, not for reading. */
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.4rem;
+  margin: 0.55rem 0 0;
+}
+.keys span {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05rem 0.4rem;
+}
+
+/* Archive filter: progressive enhancement. With no JS the box is hidden and
+   every entry stays on the page, which is the behaviour that matters. */
+.kfilter { display: none; margin: 0 0 1.4rem; }
+.js .kfilter { display: block; }
+.kfilter label { display: block; margin: 0 0 0.4rem; }
+.kfilter input {
+  font-family: var(--mono);
+  font-size: 1rem;
+  width: 100%;
+  max-width: 22rem;
+  padding: 0.5rem 0.7rem;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.kfilter input:focus { outline: 2px solid var(--thread); outline-offset: 2px; }
+.entry[hidden] { display: none; }
+
 /* ---------- cards ---------- */
 
 .card {

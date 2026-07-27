@@ -195,7 +195,10 @@ h2 {
 h3 {
   font-family: var(--body);
   font-weight: 600;
-  font-size: 1.02rem;
+  /* Never below the paragraph size. Body is 18px and the rem is 16px, so
+     1.125rem is the floor for anything that calls itself a heading. */
+  font-size: 1.2rem;
+  line-height: 1.35;
   margin: 0 0 0.5rem;
 }
 .lead {
@@ -496,7 +499,7 @@ footer.end {
 }
 footer.end h4 {
   font-family: var(--mono);
-  font-size: 0.88rem;
+  font-size: 1.125rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--faint);

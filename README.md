@@ -23,7 +23,7 @@ Eleven static pages, no build step, no framework, no analytics, no accounts. Ful
 - `site-map.html` : everything, no JS required
 - `SIGNATORIES.md` : the garland itself. Sign by pull request; merged means signed
 - `CONTRIBUTING.md` : signing rules and content house style
-- `archive/ico-era/` : the previous site, byte-for-byte, with its licence as shipped
+- `archive/ico-era/` : an earlier single-page site from the GAJRA-earth repo, kept unedited, with its licence as shipped. NOT the original WordPress gajra.earth, which predates every repository here and is not archived.
 
 ## Run locally
 

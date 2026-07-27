@@ -187,13 +187,14 @@ nav.primary a[aria-current="page"] {
   max-width: none;
 }
 .assoc-big {
-  font-size: 1.35rem;
-  letter-spacing: 0.1em;
+  /* the three words carry the presence; the scaffolding around them stays
+     quiet, so the name is both humble and unmissable */
+  font-size: clamp(1.35rem, 3.2vw, 1.9rem);
+  letter-spacing: 0.08em;
   color: var(--marigold-hi);
 }
 @media (max-width: 34rem) {
-  .assoc { font-size: 0.95rem; letter-spacing: 0.1em; }
-  .assoc-big { font-size: 1.05rem; }
+  .assoc { font-size: 0.95rem; letter-spacing: 0.1em; line-height: 1.7; }
 }
 
 h1 {

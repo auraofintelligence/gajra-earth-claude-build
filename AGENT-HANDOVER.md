@@ -131,6 +131,25 @@ explicitly denied on the page, because none exists. The `.fold` pattern
 (jargon behind a `<details>` so the plain-English reading never breaks) is
 borrowed from `straddie-digital-twin-explainer` and is reusable anywhere.
 
+
+## The daily watch (automated)
+
+A scheduled task, `gajra-ai-governance-watch`, runs every morning at 7am Brisbane
+time and publishes to **`watch.html`**, a real public page rather than a data file.
+It inserts a new dated `<section>` immediately after the `<!-- WATCH:INSERT -->`
+marker so newest is always first, then commits and pushes. Git history is the
+archive, and the task trims the page to 30 days.
+
+Scope: AI governance and law, data centres, alignment as a public conversation,
+and civil society shaping decisions, prioritising multilateral and regional bodies
+over company announcements. It tags items bearing on Q9 and Q10.
+
+**The defence exclusion is deliberate.** No NATO, no defence treaties, no AUKUS
+defence pillars, no autonomous weapons, no intelligence programmes. Luke's reason:
+this project does not attempt to bridge into that domain and civilian voices are
+routinely ignored there anyway. The task reports what it excluded so the call can
+be checked. Do not relax this without asking him.
+
 ## Remaining backlog
 
 - Per-page map data files: festivals, working groups, AI labs, data centres,

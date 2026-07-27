@@ -66,7 +66,11 @@
     var row = slices + 1;
     for (var s = 0; s < stacks; s++) for (var t = 0; t < slices; t++) {
       var a = s * row + t, b = a + row;
-      idx.push(a, b, a + 1, b, b + 1, a + 1);
+      /* Wound counter-clockwise as seen from OUTSIDE the sphere (east then
+         north), so back-face culling keeps the hemisphere facing the camera.
+         Reverse these and you quietly render the far side from the inside,
+         which looks like a plausible Earth with every continent mirrored. */
+      idx.push(a, a + 1, b, b, a + 1, b + 1);
     }
     return { pos: new Float32Array(pos), uv: new Float32Array(uv), idx: new Uint16Array(idx) };
   }
@@ -114,8 +118,10 @@
     this.view = root.getAttribute("data-view") === "flat" ? "flat" : "globe";
     this.groups = [];
     this.lonC = 153.4; this.latC = -27.5;      /* opens over Minjerribah */
+    this.homeLon = this.lonC; this.homeLat = this.latC;
     this.dist = 2.6;                            /* camera distance, radii */
     this.flatZoom = 1; this.flatX = 0; this.flatY = 0;
+    this.flatPlaced = false;
     this.vLon = 0; this.vLat = 0;               /* inertia */
     this.touched = false;
     this.raf = 0; this.visible = true;
@@ -179,9 +185,45 @@
 
   EarthMap.prototype.setView = function (mode) {
     if (mode === "globe" && !this.gl) mode = "flat";
+    if (mode !== this.view) {
+      /* Carry the camera across, so toggling does not teleport you. Going to
+         flat, aim it where the globe was looking; coming back, read the centre
+         of the flat frame and turn the globe to it. */
+      if (mode === "flat") { this.placeFlat(this.lonC, this.latC); }
+      else { var c = this.flatCentre(); if (c) { this.lonC = c.lon; this.latC = c.lat; } }
+      this.touched = true;
+    }
     this.view = mode;
     this.applyView();
     this.requestRender();
+  };
+
+  /* Put lat/lon in the middle of the flat frame. Needs the canvas measured,
+     so it is a no-op until the first resize has run. */
+  EarthMap.prototype.placeFlat = function (lon, lat) {
+    var c = this.flatCanvas;
+    if (!c || !c.width || !this.img) return;
+    var d = this.flatDims();
+    this.flatX = c.width / 2 - (lon + 180) / 360 * d.dw;
+    this.flatY = c.height / 2 - (90 - lat) / 180 * d.dh;
+    this.flatPlaced = true;
+  };
+
+  EarthMap.prototype.flatDims = function () {
+    var c = this.flatCanvas, iw = this.img.naturalWidth, ih = this.img.naturalHeight;
+    var s = Math.max(c.width / iw, c.height / ih) * this.flatZoom;
+    return { dw: iw * s, dh: ih * s };
+  };
+
+  EarthMap.prototype.flatCentre = function () {
+    var c = this.flatCanvas;
+    if (!c || !c.width || !this.img) return null;
+    var d = this.flatDims();
+    var lon = (c.width / 2 - this.flatX) / d.dw * 360 - 180;
+    return {
+      lon: ((lon + 180) % 360 + 360) % 360 - 180,   /* the view wraps, so normalise */
+      lat: 90 - (c.height / 2 - this.flatY) / d.dh * 180
+    };
   };
 
   EarthMap.prototype.applyView = function () {
@@ -288,15 +330,19 @@
     var ctx = c.getContext("2d");
     var w = c.width, h = c.height;
     ctx.clearRect(0, 0, w, h);
-    var iw = this.img.naturalWidth, ih = this.img.naturalHeight;
-    var base = Math.max(w / iw, h / ih);      /* cover */
-    var s = base * this.flatZoom;
-    var dw = iw * s, dh = ih * s;
-    /* clamp pan so the image always covers the frame */
-    this.flatX = Math.min(0, Math.max(w - dw, this.flatX));
+    var d = this.flatDims();
+    var dw = d.dw, dh = d.dh;
+    /* First time the flat view is drawn, open it over home rather than pinned
+       to the left edge, which would put Australia off the side of the frame. */
+    if (!this.flatPlaced) this.placeFlat(this.homeLon, this.homeLat);
+    /* Vertical is clamped: there is nothing above the pole. Horizontal wraps,
+       because the world does not have a left or a right edge. The image is
+       tiled across the frame, so you can sail past the antimeridian and keep
+       going, and Australia can sit in the middle instead of jammed on the end. */
     this.flatY = Math.min(0, Math.max(h - dh, this.flatY));
-    ctx.drawImage(this.img, this.flatX, this.flatY, dw, dh);
-    this.placePinsFlat(s, dw, dh);
+    this.flatX = ((this.flatX % dw) + dw) % dw - dw;
+    for (var x = this.flatX; x < w; x += dw) ctx.drawImage(this.img, x, this.flatY, dw, dh);
+    this.placePinsFlat(dw, dh);
   };
 
   /* ---------- pins ---------- */
@@ -330,12 +376,13 @@
     }
   };
 
-  EarthMap.prototype.placePinsFlat = function (s, dw, dh) {
+  EarthMap.prototype.placePinsFlat = function (dw, dh) {
     if (!this.pins) return;
     var dpr = this.dpr || 1;
     for (var i = 0; i < this.pins.length; i++) {
       var p = this.pins[i], g = p.g;
-      var x = ((g.lon + 180) / 360 * dw + this.flatX) / dpr;
+      /* same wrap as the imagery, so a pin lands on its own island */
+      var x = (((g.lon + 180) / 360 * dw + this.flatX) % dw + dw) % dw / dpr;
       var y = ((90 - g.lat) / 180 * dh + this.flatY) / dpr;
       p.el.classList.remove("away");
       p.el.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)";

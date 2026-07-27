@@ -101,6 +101,19 @@ Privacy lines that must survive any implementation: general locations only, the
 packet is exactly what the person typed, no analytics, sender contact details go in
 the PR body (private to maintainers) and never into the public JSON.
 
+## The field kit page that is not built yet (design note)
+
+The public help desk material was cut from `asking.html` on 2026-07-28: what to
+bring, the market stall pattern, shade and chairs, helping with forms and phones,
+the two-chairs-same-side detail. It is a genuinely different activity from asking
+somebody three questions, and carrying both made that page twice as long as it
+needed to be and confusing about what it was for.
+
+If it comes back it should be its own page. The range section on `asking.html`
+ends by saying bigger versions exist and need their own kit, which is the natural
+place to link it from. The cut material is in git history if it is wanted verbatim;
+the last commit containing it is the one before this note was added.
+
 ## Asking and support (BUILT)
 
 `asking.html` is the listening station pattern, labelled Proposal because

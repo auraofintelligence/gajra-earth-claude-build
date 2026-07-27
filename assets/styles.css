@@ -899,6 +899,35 @@ html.js .garland.in g:nth-of-type(8) { transition-delay: 2.6s; }
 .so-more > *:not(summary) { margin-top: 0.9rem; }
 [data-send][aria-disabled="true"] { opacity: 0.42; pointer-events: none; }
 
+/* ---------- the listening station list ---------- */
+
+.st-list { list-style: none; padding: 0; margin: 0.8rem 0 0; }
+.st-row {
+  position: relative;
+  padding: 0.9rem 6.5rem 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--thread);
+  border-radius: 6px;
+  background: var(--night-raised);
+  margin-bottom: 0.6rem;
+}
+.st-del {
+  position: absolute;
+  top: 0.8rem; right: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+}
+.st-del:hover { color: var(--jasmine); border-color: var(--thread); }
+.st-del:focus-visible { outline: 2px solid var(--aurora); outline-offset: 2px; }
+
 /* ---------- the earth map: one planet, no borders ---------- */
 
 .em {

@@ -8,6 +8,8 @@
   "use strict";
 
   var TEX_SRC = "assets/earth-4096.jpg";
+  var IDLE_RESUME = 30000;   /* left alone this long, the globe takes itself back up */
+  var HOME_DIST = 2.6;
   var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- tiny mat4 helpers (column-major, WebGL order) ---------- */
@@ -119,7 +121,7 @@
     this.groups = [];
     this.lonC = 153.4; this.latC = -27.5;      /* opens over Minjerribah */
     this.homeLon = this.lonC; this.homeLat = this.latC;
-    this.dist = 2.6;                            /* camera distance, radii */
+    this.dist = HOME_DIST;                      /* camera distance, radii */
     this.flatZoom = 1; this.flatX = 0; this.flatY = 0;
     this.flatPlaced = false;
     this.vLon = 0; this.vLat = 0;               /* inertia */
@@ -145,6 +147,15 @@
     ui.className = "em-ui";
     this.btnGlobe = this.makeToggle(ui, "Globe", "globe");
     this.btnFlat = this.makeToggle(ui, "Flat", "flat");
+
+    var reset = document.createElement("button");
+    reset.type = "button";
+    reset.className = "em-btn em-reset";
+    reset.textContent = "Reset";
+    reset.setAttribute("aria-label", "Recentre the map and set it turning again");
+    reset.addEventListener("click", function () { self.reset(); });
+    ui.appendChild(reset);
+
     root.appendChild(ui);
 
     this.card = document.createElement("div");
@@ -174,6 +185,33 @@
     });
   }
 
+  /* Any deliberate move stops the drift, but only for a while: a map somebody
+     dragged and then walked away from should start breathing again by itself. */
+  EarthMap.prototype.markTouched = function () {
+    var self = this;
+    this.touched = true;
+    if (this.idleTimer) clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(function () {
+      self.touched = false;
+      self.requestRender();
+    }, IDLE_RESUME);
+  };
+
+  /* Back to where it opened: over Minjerribah, at full world, turning. */
+  EarthMap.prototype.reset = function () {
+    if (this.idleTimer) clearTimeout(this.idleTimer);
+    this.idleTimer = 0;
+    this.lonC = this.homeLon;
+    this.latC = this.homeLat;
+    this.dist = HOME_DIST;
+    this.flatZoom = 1;
+    this.flatPlaced = false;
+    this.vLon = 0; this.vLat = 0;
+    this.touched = false;
+    this.card.hidden = true;
+    this.requestRender();
+  };
+
   EarthMap.prototype.makeToggle = function (ui, label, mode) {
     var self = this, b = document.createElement("button");
     b.type = "button"; b.className = "em-btn"; b.textContent = label;
@@ -191,7 +229,7 @@
          of the flat frame and turn the globe to it. */
       if (mode === "flat") { this.placeFlat(this.lonC, this.latC); }
       else { var c = this.flatCentre(); if (c) { this.lonC = c.lon; this.latC = c.lat; } }
-      this.touched = true;
+      this.markTouched();
     }
     this.view = mode;
     this.applyView();
@@ -414,7 +452,7 @@
 
     function down(e) {
       active[e.pointerId] = e;
-      self.touched = true;
+      self.markTouched();
       self.vLon = 0; self.vLat = 0;
       lastX = e.clientX; lastY = e.clientY;
       var keys = Object.keys(active);
@@ -475,7 +513,7 @@
   };
 
   EarthMap.prototype.nudge = function (dLon, dLat) {
-    this.touched = true;
+    this.markTouched();
     if (this.view === "globe") {
       this.lonC += dLon;
       this.latC = Math.max(-85, Math.min(85, this.latC + dLat));
@@ -486,7 +524,7 @@
   };
 
   EarthMap.prototype.zoomBy = function (f, cx, cy) {
-    this.touched = true;
+    this.markTouched();
     if (this.view === "globe") {
       this.dist = Math.max(1.45, Math.min(5, this.dist / f));
     } else {

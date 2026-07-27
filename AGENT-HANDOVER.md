@@ -45,9 +45,14 @@ The hard part is done and verified. Zero dependencies, two views, one texture.
 - `window.__earthMaps` exposes instances for testing. Verify a change with:
   `__earthMaps[0].renderGlobe()` then `gl.readPixels` in the same task (the drawing
   buffer is not preserved across tasks, a zero read outside the frame is normal).
-- Known deliberate limits (fine to extend, in order of value): flat view does not
-  wrap at the antimeridian; no pin clustering (irrelevant until there are dozens of
-  pins); globe-to-flat toggle does not carry the exact camera across.
+- Idle behaviour: any deliberate move calls `markTouched()`, which stops the drift
+  and arms a 30 second timer (`IDLE_RESUME`); when it fires the globe starts
+  turning again. `reset()` returns to home longitude, latitude, distance and zoom,
+  clears the timer and resumes the drift immediately. Do not set `touched` directly
+  anywhere except inside `markTouched`, or the map will freeze permanently again.
+- Known deliberate limits (fine to extend, in order of value): no pin clustering
+  (irrelevant until there are dozens of pins); the globe does not wrap its
+  latitude clamp at the poles by design.
 
 ### Map neutrality rules (non-negotiable)
 

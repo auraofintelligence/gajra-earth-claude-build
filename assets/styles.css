@@ -672,6 +672,45 @@ html:not(.js) .seam-light { display: none; }
 }
 .kintsugi-seam + footer.end { margin-top: 0; }
 
+/* next and previous, so the site can be read straight through */
+.end-nav {
+  max-width: var(--wide);
+  margin: 0 auto 1.6rem;
+  padding: 0 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+}
+.end-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: var(--jasmine-dim);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 1.1rem;
+  max-width: 22rem;
+}
+.end-nav a:hover { border-color: var(--thread); color: var(--jasmine); }
+.en-next { text-align: right; }
+.en-dir {
+  font-family: var(--mono);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--thread);
+}
+.en-prev .en-dir::before { content: "←  "; }
+.en-next .en-dir::after  { content: "  →"; }
+.en-name { font-family: var(--display); font-size: 1.2rem; line-height: 1.2; }
+@media (max-width: 34rem) {
+  .end-nav { flex-direction: column; }
+  .end-nav a { max-width: none; }
+  .en-next { text-align: left; }
+}
+
 /* the way home and the way back up, both plain links so they work
    with everything switched off */
 .end-top {

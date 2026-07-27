@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to G.A.J.R.A. Earth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a1a;
+            --primary-glow: #00d4ff;
+            --secondary-glow: #00aaff;
+            --card-bg: rgba(20, 20, 40, 0.7);
+            --card-border: rgba(0, 170, 255, 0.3);
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: radial-gradient(circle at 1% 1%, var(--secondary-glow) 0%, transparent 20%), 
+                              radial-gradient(circle at 99% 99%, var(--primary-glow) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Align text to bottom */
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative; /* For canvas positioning */
+            padding-bottom: 12vh; /* Increased space for text */
+        }
+        
+        #earth-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Place behind text content */
+        }
+        
+        .hero-content {
+            position: relative; /* Ensure text is on top of canvas */
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--heading-color);
+            text-shadow: 0 0 20px var(--primary-glow);
+            margin: 0 0 20px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero .sub-headline {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--text-color);
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 2s ease-in-out 0.5s;
+            animation-fill-mode: backwards;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary-glow);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            animation: bounce 2s infinite, fadeIn 2s ease-in-out 1s;
+             animation-fill-mode: backwards;
+            z-index: 1;
+        }
+        
+        /* General Section Styling */
+        .section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .section:last-of-type { border-bottom: none; }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            color: var(--heading-color);
+            text-shadow: 0 0 12px var(--primary-glow);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        /* Interactive Accordion */
+        .accordion-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .accordion-header {
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background-color: rgba(20, 20, 40, 0.9);
+        }
+
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--primary-glow);
+        }
+        
+        .accordion-icon {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-glow);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .accordion-content-inner {
+            padding: 0 25px 25px 25px;
+        }
+        
+        .accordion-content-inner p, .accordion-content-inner ul {
+            text-align: left;
+            max-width: none;
+            margin-bottom: 15px;
+        }
+        .accordion-content-inner p:last-child, .accordion-content-inner ul:last-child {
+            margin-bottom: 0;
+        }
+
+        .accordion-content-inner ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .accordion-content-inner ul li {
+            padding-left: 1.5em;
+            text-indent: -1.5em;
+            margin-bottom: 10px;
+        }
+        .accordion-content-inner ul li::before {
+            content: '✧';
+            margin-right: 10px;
+            color: var(--primary-glow);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Card Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 35px rgba(0, 212, 255, 0.3);
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-glow);
+            margin-top: 0;
+        }
+        .card p { font-size: 1rem; line-height: 1.6; text-align: left; margin-bottom: 0;}
+        
+        /* Quote and Footer */
+         .founder-quote {
+            font-style: italic;
+            max-width: 700px;
+            margin: 40px auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            border-left: 3px solid var(--secondary-glow);
+            padding-left: 20px;
+            text-align: left;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.6;
+        }
+
+        /* Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -15px); }
+            60% { transform: translate(-50%, -7px); }
+        }
+
+    </style>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    
+    <div class="hero">
+        <canvas id="earth-canvas"></canvas>
+        <div class="hero-content">
+            <h1>A New Future is Being Built.</h1>
+            <p class="sub-headline">Welcome to G.A.J.R.A. Earth: A Global Association for Joyful Responsible Abundance on Earth.</p>
+        </div>
+        <div class="scroll-indicator">Scroll Down</div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Section 1: The Invitation -->
+        <section id="invitation" class="section reveal">
+            <h2 class="section-title">The Invitation to a New World</h2>
+            <p>We begin by asking a single, powerful question that is the seed of our entire mission:</p>
+            <p class="founder-quote" style="text-align:center; border:none; padding:0;">"How would you manage your own time if money was irrelevant and joyful responsible abundance was the goal of civilization?"</p>
+            
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Our Vision: What is Joyful Responsible Abundance?</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <p>This isn't just a dream; it's a blueprint. It is a tangible future we can actively build, a world where:</p>
+                        <ul>
+                            <li>The <strong>Sharing Economy</strong> succeeds, prioritizing access and collaboration over exclusive ownership.</li>
+                            <li><strong>Waste is eliminated</strong> through intelligent circular design and near-total recycling.</li>
+                            <li>Our environments are actively <strong>cleaned and regenerated</strong>, creating a healthy planet for all life.</li>
+                            <li>Travel is <strong>autonomous and eco-friendly</strong> within intelligently designed eco-cities.</li>
+                            <li>Food is grown hyper-locally, assisted by personalized AI.</li>
+                            <li>Governance is <strong>transparent and trustworthy</strong>, enhanced by technology to truly serve the collective good.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Crossroads -->
+        <section id="crossroads" class="section reveal">
+            <h2 class="section-title">A World at a Pivotal Moment</h2>
+            <p>We are witness to the rapid emergence of artificial superintelligence and the intensification of existential challenges. Our mission is to unite in an open, participatory effort to establish a shared vision, ensuring emerging intelligences align with humanity's highest aspirations.</p>
+        </section>
+
+        <!-- Section 3: The Blueprint -->
+        <section id="blueprint" class="section reveal">
+            <h2 class="section-title">Our Ecosystem for Global Change</h2>
+            <p>We are building a future through an ecosystem of interconnected ventures designed to elevate humanity.</p>
+            <div class="grid">
+                <div class="card reveal">
+                    <h3>Aura of Intelligence (The Core Technology)</h3>
+                    <p>An XR "digital twin" of your body and mind. It integrates with AI, blockchain, and IoT to augment human capabilities and foster harmonious collaboration between humans and technology.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>Gamify Democracy (The New Governance)</h3>
+                    <p>An initiative that blends gaming with the democratic process. It elevates conversations into eloquent dialogues, making civic engagement an enriching and enjoyable experience.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>Queens Venture Capital (The Economic Engine)</h3>
+                    <p>A series of venture capital firms focused on empowering female entrepreneurship to revolutionize female-led innovation and address the gender disparity in global VC funding.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW Section: Foundations -->
+        <section id="foundations" class="section reveal">
+            <h2 class="section-title">The Foundations of Our New World</h2>
+            <p>Our ecosystem is built on groundbreaking principles for a decentralized and regenerative future.</p>
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Our Economy: The Regenerative C-Hour</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <p>We are moving beyond outdated economic models. The <strong>Contribution-Hour (C-Hour)</strong> is a proposed new unit of value based on the time and talent individuals contribute to the ecosystem. It's a system designed to reward creativity, collaboration, and actions that generate "Joyful Responsible Abundance," creating a truly regenerative economy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Our Governance: Decentralized & Transparent (DAO)</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <p>GAJRA Earth is structured as a <strong>Decentralized Autonomous Organization (DAO)</strong>. This means governance is not top-down; it's community-driven. Key decisions are made through transparent, on-chain voting by members. Our governance will evolve in phases:</p>
+                        <ul>
+                           <li><strong>Phase 1: Centralized Core Team</strong> to establish a strong foundation.</li>
+                           <li><strong>Phase 2: Distributed Governance</strong> including early adopters and investors.</li>
+                           <li><strong>Phase 3: Fully Decentralized Governance</strong> where the community leads the way.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 4: The Journey -->
+        <section id="journey" class="section reveal">
+            <h2 class="section-title">The Journey to 2035</h2>
+            <p>Our path to a globally united event is a decade-long journey, not a single leap. We are building a global network from the ground up.</p>
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Our Strategy: A Decade of Celebration</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <p>Over the next ten years, GAJRA Earth will build momentum through a series of <strong>Earth Arts & Music Festivals</strong>, following a two-pronged approach:</p>
+                         <ul>
+                            <li><strong>Building from Scratch:</strong> We will host our own events at every scale, from intimate local gatherings to major regional festivals. Each event serves as a living lab to perfect logistics and test our technology.</li>
+                            <li><strong>Strategic Partnerships:</strong> We will actively align with existing, like-minded arts and music festivals around the world. By collaborating, we amplify our shared message and weave the GAJRA mission into the global cultural fabric.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>The Beacon Event: Live Aid "Thriving World" 2035</h3>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <p>This decade of building relationships will culminate in <strong>July 2035</strong>. We will celebrate the 50th anniversary of Live Aid with a monumental event. It will be the platform for the <strong>world's largest collective vote</strong> on the core values critical to humanity's future, celebrating a world that has learned to thrive together.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: The Call to Action -->
+        <section id="co-create" class="section reveal">
+            <h2 class="section-title">Become a Founding Contributor</h2>
+            <p>This is your opportunity to be part of a movement that's shaping a more harmonious, abundant future. Your path to contributing to a transformative era starts here.</p>
+            <div class="grid">
+                <div class="card reveal">
+                    <h3>Get Noticed (Free Invitation)</h3>
+                    <p>Use <strong>#GAJRAEarth</strong> and <strong>#GAJRA</strong> on social media. We actively monitor these tags to find and invite new members who align with our vision.</p>
+                </div>
+                 <div class="card reveal">
+                    <h3>Request Membership</h3>
+                    <p>If you wish to join our Extended Intelligence Network directly, you can submit a request through our upcoming membership form.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>Volunteer Your Skills</h3>
+                    <p>Volunteers are the heart and soul of our organisation. We need visionaries, builders, and creators to help bring our ambitious projects to life.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="reveal">
+            <p class="founder-quote">"In the complex fractal vortex of love, light and choice, you are the black hole of calm observation and voice... Break free from the mundane and keep on dreaming. Choose love, choose infinity and seek deeper meaning."<br>- Luke Nathan Hayes, Founder</p>
+            <p>&copy; 2025 GAJRA Earth. Building a protopian future, together.</p>
+        </footer>
+    </div>
+
+<script type="module">
+    // --- Three.js for Spinning Earth ---
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.127.0/build/three.module.js';
+
+    let scene, camera, renderer, earthMesh;
+
+    function initThreeJS() {
+        const canvas = document.getElementById('earth-canvas');
+        if (!canvas) return;
+        
+        scene = new THREE.Scene();
+        
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 2.5;
+
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Earth Geometry and Material with Texture
+        const textureLoader = new THREE.TextureLoader();
+        // Using a CORS-friendly texture URL
+        const earthTextureUrl = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthmap1k.jpg';
+        const earthTexture = textureLoader.load(earthTextureUrl, 
+            (texture) => { // success
+                texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            },
+            undefined, // progress
+            (err) => { // error
+                console.error('An error happened while loading the texture.', err);
+                // Fallback to wireframe if texture fails
+                const fallbackMaterial = new THREE.MeshPhongMaterial({
+                    color: 0xaaaaFF,
+                    emissive: 0x00aaff,
+                    wireframe: true
+                });
+                if (earthMesh) earthMesh.material = fallbackMaterial;
+            }
+        );
+        
+        const geometry = new THREE.SphereGeometry(1, 64, 64); // Shrunk globe by another 10%
+        const material = new THREE.MeshStandardMaterial({ 
+            map: earthTexture,
+            metalness: 0.1,
+            roughness: 0.7
+        });
+        earthMesh = new THREE.Mesh(geometry, material);
+        earthMesh.position.y = 0.55; // Nudged the Earth down a bit
+        scene.add(earthMesh);
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 3, 5);
+        scene.add(directionalLight);
+        
+        animate();
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        if (earthMesh) {
+            earthMesh.rotation.y += 0.001;
+        }
+        if(renderer && scene && camera) {
+            renderer.render(scene, camera);
+        }
+    }
+    
+    function onWindowResize() {
+        if(camera && renderer) {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    }
+    
+    window.addEventListener('resize', onWindowResize);
+
+
+    // --- Main DOMContentLoaded Logic ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initThreeJS();
+
+        // --- Accordion Logic ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            header.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                
+                // Close all items
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').style.maxHeight = '0px';
+                });
+
+                // If the clicked item was not active, open it
+                if (!wasActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // --- Scroll to Reveal Logic ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+    });
+</script>
+
+</body>
+</html>
+

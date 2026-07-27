@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Destination · GAJRA Earth</title>
-<meta name="description" content="This page is short on purpose. It is the one the signatories write.">
+<title>The map · GAJRA Earth</title>
+<meta name="description" content="One planet, photographed from space, no borders drawn on it. Groups appear here as they sign on.">
 <link rel="icon" href="assets/aura-heart-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/aura-heart-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="assets/aura-heart-180.png">
@@ -12,6 +12,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <script defer src="assets/reveal.js"></script>
 <script defer src="assets/aurora.js"></script>
+<script defer src="assets/earth-map.js"></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -29,9 +30,9 @@
       <a href="scales.html">Scales</a>
       <a href="past.html">Past</a>
       <a href="present.html">Present</a>
-      <a href="future.html" aria-current="page">Future</a>
+      <a href="future.html">Future</a>
       <a href="questions.html">Questions</a>
-      <a href="map.html">Map</a>
+      <a href="map.html" aria-current="page">Map</a>
       <a href="sign-on.html">Sign on</a>
     </nav>
   </div>
@@ -40,33 +41,27 @@
 <main id="content">
   <section class="hero still">
     <div class="wrap">
-      <span class="kicker">The destination</span>
-      <h1>This page is short on purpose.</h1>
-      <p class="lead">It is the one the signatories write.</p>
+      <span class="kicker">The map</span>
+      <h1>One planet. No borders drawn on it.</h1>
+      <p class="lead">This is Earth as cameras actually see it: photographed from space, no lines added. Every border a bridge. Groups appear here as they sign on, one flower at a time, at the scale of a town or an island, never an address.</p>
     </div>
   </section>
 
   <section class="pad-s">
-    <div class="wrap">
-      <div class="reveal">
-        <p><span class="chip proposal">Proposal</span></p>
-        <p><strong>Definition releases.</strong> The trinity, versioned like source: a v0.1 of what joyful responsible abundance means in practice, with a public changelog, drafted from the signatories' one-line definitions and argued in the open. Nobody has ever shipped a destination as a living document with release notes. Somebody should.</p>
+    <div class="wrapw reveal">
+      <div data-earth-map data-src="data/groups.json" data-view="globe">
+        <noscript><div class="em-fallback"><img src="assets/earth-1600.jpg" alt="Earth photographed from space, the NASA Blue Marble composite, with no borders drawn"></div></noscript>
       </div>
-      <div class="reveal">
-        <p style="margin-top:1.4rem"><span class="chip proposal">Proposal</span></p>
-        <p><strong>A gathering before the world arrives.</strong> Brisbane hosts the Olympic and Paralympic Games in 2032. A <a href="https://auraofintelligence.github.io/GAJRA_Earth-Space-AI_Summit/" rel="noopener">working proposal exists</a> for a meeting of care, civic technology and peaceful space cooperation in that lead-up: a room where this definition gets argued in person, early enough to matter. It is a proposal, not an announced event, and it says so on its own front page.</p>
-      </div>
-      <div class="reveal">
-        <p style="margin-top:1.4rem"><span class="chip record">Record</span></p>
-        <p><strong>The standing reminder.</strong> The aurora will be there regardless, most nights, over both poles: the planet already wearing the garland, whether or not anyone signs anything. The future work is not to invent the pattern. It is to join it deliberately, at the scales we are responsible for.</p>
-      </div>
+      <p class="faint" style="font-size:0.82rem;margin-top:0.7rem">Drag to turn, scroll or pinch to zoom, toggle flat and globe at the top right. Imagery: NASA Blue Marble, public domain. NASA does not endorse this site.</p>
     </div>
   </section>
 
-  <section class="pad">
+  <section class="pad-s">
     <div class="wrap reveal">
-      <h2>What would you add?</h2>
-      <p class="muted">This section is empty because it is yours. Answer an <a href="questions.html">open question</a>, or <a href="sign-on.html">sign on</a> and put one line of the future in the file.</p>
+      <h2>How a group appears here</h2>
+      <p><span class="chip invitation">Invitation</span></p>
+      <p>Sign on as a group, name a general location you are happy to share publicly, and it becomes one line in <a href="https://github.com/auraofintelligence/gajra-earth-claude-build/blob/main/data/groups.json" rel="noopener"><code>data/groups.json</code></a>: merged means visible. The map has exactly as many pins as the record has signatures, which today is a small number, and that is the honest state of things.</p>
+      <p>Locations are town-scale or island-scale by design. The map shows that you exist and roughly where, never where you sleep. <a href="sign-on.html">The mechanism.</a></p>
     </div>
   </section>
 </main>
@@ -97,6 +92,7 @@
       <h4>Take part</h4>
       <ul>
         <li><a href="sign-on.html">Sign on</a></li>
+        <li><a href="map.html">The map</a></li>
         <li><a href="questions.html">Open questions</a></li>
         <li><a href="https://github.com/auraofintelligence/gajra-earth-claude-build" rel="noopener">Source repository</a></li>
       </ul>
@@ -123,7 +119,7 @@
     GAJRA Earth: Global Association for Joyful Responsible Abundance on Earth.<br>
     Strung on Minjerribah, Quandamooka Country, Australia. A Luke × Claude build, July 2026.<br>
     No analytics, no cookies, no accounts. <a href="licence.html">Public Source Licence</a>: read, learn and adapt non-commercially with credit; commercial rights reserved.<br>
-    Sky: Aurora Australis from the International Space Station, 17 August 2022. Courtesy NASA SVS, public domain. NASA does not endorse this site.
+    Sky: Aurora Australis from the International Space Station, 17 August 2022. Earth imagery: NASA Blue Marble. Courtesy NASA, public domain. NASA does not endorse this site.
   </div>
 </footer>
 </body>

@@ -1,0 +1,16 @@
+{
+  "updated": "2026-07-27",
+  "note": "General locations only, town or island scale, never street addresses. Grows by pull request: see sign-on.html.",
+  "groups": [
+    {
+      "name": "GAJRA Earth, origin",
+      "kind": "working-group",
+      "label": "record",
+      "lat": -27.49,
+      "lon": 153.45,
+      "place": "Minjerribah (North Stradbroke Island), Quandamooka Country, Australia",
+      "note": "Where this site is strung. The first flower on the thread.",
+      "url": "sign-on.html"
+    }
+  ]
+}

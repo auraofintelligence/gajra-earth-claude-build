@@ -150,6 +150,18 @@ this project does not attempt to bridge into that domain and civilian voices are
 routinely ignored there anyway. The task reports what it excluded so the call can
 be checked. Do not relax this without asking him.
 
+
+## Before the domain is repointed
+
+`https://gajra.earth` is still serving the original hand-built WordPress site.
+It disappears the moment the domain is pointed at this repo or the Codex variant.
+
+**Take a fresh Internet Archive capture of it first** (web.archive.org "Save Page
+Now", every page not just the front) so the final state is preserved on purpose
+rather than by whatever the crawler happened to catch. The archive page tells
+readers the captures are the remaining record, and that should be true rather
+than hopeful.
+
 ## Remaining backlog
 
 - Per-page map data files: festivals, working groups, AI labs, data centres,

@@ -358,6 +358,44 @@ hr.rule {
   padding: 0.05rem 0.4rem;
 }
 
+/* ---------- ahead: the forward calendar ----------
+   Date first, because the date is what you are scanning for. */
+
+.ev {
+  padding-top: 1.15rem;
+  margin: 0 0 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.ev:first-of-type { padding-top: 0; border-top: 0; }
+.ev h3 { margin: 0.15rem 0 0.3rem; }
+.ev p { margin: 0 0 0.45rem; }
+.ev-date {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: var(--marigold-hi);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+}
+.ev-in { color: var(--faint); }
+.ev-where {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  color: var(--jasmine-dim);
+}
+.ev-where::before { content: "at "; color: var(--faint); }
+.chip.door {
+  font-size: 0.78rem;
+  padding: 0.1rem 0.5rem;
+  border-color: var(--aurora);
+  color: var(--aurora);
+  vertical-align: baseline;
+}
+.ev.past { opacity: 0.72; }
+
 /* Archive filter: progressive enhancement. With no JS the box is hidden and
    every entry stays on the page, which is the behaviour that matters. */
 .kfilter { display: none; margin: 0 0 1.4rem; }

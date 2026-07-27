@@ -232,7 +232,7 @@ blockquote {
 blockquote p:last-child { margin-bottom: 0; }
 code {
   font-family: var(--mono);
-  font-size: 0.86em;
+  font-size: 0.95em;
   background: var(--night-raised);
   border: 1px solid var(--line);
   padding: 0.08em 0.4em;
@@ -782,21 +782,8 @@ footer.end {
   margin: 0;
 }
 
-/* the pair-failure cards: a label and a heading, no pills.
-   Chips are the four honesty labels and nothing else. */
-.pairing {
-  /* This names the combination that causes the failure, so it is doing the
-     work of a heading and is set like one: readable, sentence case, no
-     uppercase mono garnish. */
-  font-family: var(--body);
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--thread);
-  margin: 0 0 0.35rem;
-  line-height: 1.4;
-}
+/* the pair-failure cards: a heading, and the pairing folded into the
+   paragraph as a bold lead-in, so it can never be set smaller than the prose */
 .failname {
   font-family: var(--display);
   font-weight: 400;

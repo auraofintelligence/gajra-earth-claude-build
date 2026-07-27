@@ -662,6 +662,31 @@ html:not(.js) .seam-light { display: none; }
 }
 .kintsugi-seam + footer.end { margin-top: 0; }
 
+/* the way home and the way back up, both plain links so they work
+   with everything switched off */
+.end-top {
+  max-width: var(--wide);
+  margin: 0 auto 2.2rem;
+  padding: 0 1.35rem 1.3rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.end-top a {
+  color: var(--thread);
+  text-decoration: none;
+  padding: 0.3rem 0;
+}
+.end-top a:hover { color: var(--marigold-hi); }
+.totop::after { content: " \2191"; }
+
 
 /* one word wearing the aurora, with a safe fallback colour */
 .aurtext { color: var(--marigold-hi); }

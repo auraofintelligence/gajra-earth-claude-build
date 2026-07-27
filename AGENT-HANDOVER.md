@@ -103,7 +103,7 @@ the PR body (private to maintainers) and never into the public JSON.
 
 ## Field kits and support (BUILT)
 
-`field-kits.html` is the listening station pattern, labelled Proposal because
+`asking.html` is the listening station pattern, labelled Proposal because
 nobody has run one. Its point: the definition column in `SIGNATORIES.md` is
 supposed to be filled by the people who have to live inside the three words, and
 a listening station is where that actually happens. `assets/fieldkit.js` is the

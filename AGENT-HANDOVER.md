@@ -101,7 +101,7 @@ Privacy lines that must survive any implementation: general locations only, the
 packet is exactly what the person typed, no analytics, sender contact details go in
 the PR body (private to maintainers) and never into the public JSON.
 
-## Field kits and support (BUILT)
+## Asking and support (BUILT)
 
 `asking.html` is the listening station pattern, labelled Proposal because
 nobody has run one. Its point: the definition column in `SIGNATORIES.md` is

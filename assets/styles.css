@@ -186,6 +186,10 @@ nav.primary a[aria-current="page"] {
   margin: 0 0 0.4rem;
   max-width: none;
 }
+.assoc-earth {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  letter-spacing: 0.12em;
+}
 .assoc-big {
   /* the three words carry the presence; the scaffolding around them stays
      quiet, so the name is both humble and unmissable */

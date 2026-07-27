@@ -16,7 +16,7 @@ Rules, all of them:
 
 ## 2. Contribute to the definition
 
-Progress on any of the [eight open questions](https://auraofintelligence.github.io/gajra-earth-claude-build/questions.html) is a contribution: an answer, a part-answer, a refutation, a documented case, or a better question. Cite the question number (Q1 to Q8) in your pull request.
+Progress on any of the [open questions](https://auraofintelligence.github.io/gajra-earth-claude-build/questions.html) is a contribution: an answer, a part-answer, a refutation, a documented case, or a better question. Cite the question number in your pull request.
 
 House style for content changes:
 

@@ -320,7 +320,10 @@ hr.rule {
 .grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* 20rem rather than 15: a third column only appears when there is room to
+     read in it, so tall narrow screens get two comfortable columns instead of
+     three cramped ones */
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   max-width: var(--wide);
 }
 

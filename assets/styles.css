@@ -349,41 +349,47 @@ hr.rule {
 .btnrow { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem; }
 
 /* ---------- garland divider ----------
-   Full width, and the flowers sit ON the thread because both are generated
-   from the same curve: the wave is one 200-unit tile repeated by an SVG
-   pattern, and every flower is placed at a crossing or a peak of that tile.
-   The whole thing slides by exactly one tile, forever, so the join never
-   shows and the garland is always being strung. */
+   Two strands at different depths. The back one is smaller, dimmer, softly
+   out of focus and on a wider tile, so it never beats in step with the front
+   and the whole thing stops reading as wallpaper. Flowers sit on the thread
+   by construction: both come from the same wave. Marigolds carry a warm
+   bloom, jasmine catches a little of the aurora above it. */
 
 .garland {
   position: relative;
   width: 100%;
-  height: 64px;
-  margin: 3rem 0;
+  height: 88px;
+  margin: 3.2rem 0;
   overflow: hidden;
 }
-.garland svg { display: block; width: 100%; height: 64px; }
-html.js .garland-run { animation: garlandflow 18s linear infinite; }
-@keyframes garlandflow {
-  from { transform: translateX(0); }
-  to   { transform: translateX(200px); }
-}
-/* a light travelling the thread, the warm cousin of the kintsugi seam light */
+.garland svg { display: block; width: 100%; height: 88px; }
+.gar-back  { opacity: 0.42; filter: blur(1.5px); }
+html.js .gar-back  { animation: garlandback 46s linear infinite; }
+html.js .gar-front { animation: garlandfront 24s linear infinite; }
+@keyframes garlandback  { to { transform: translateX(260px); } }
+@keyframes garlandfront { to { transform: translateX(200px); } }
+
+/* the light that walks the thread, warm cousin of the kintsugi seam light */
 .garland::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(100deg, transparent 41%, rgba(255, 236, 190, 0.32) 50%, transparent 59%);
-  background-size: 260% 100%;
-  animation: garlandsheen 7s linear infinite;
+  background: linear-gradient(102deg,
+    transparent 38%,
+    rgba(255, 214, 140, 0.10) 46%,
+    rgba(255, 240, 205, 0.34) 50%,
+    rgba(255, 214, 140, 0.10) 54%,
+    transparent 62%);
+  background-size: 280% 100%;
+  animation: garlandsheen 9s linear infinite;
 }
 @keyframes garlandsheen {
-  from { background-position: 130% 0; }
-  to   { background-position: -30% 0; }
+  from { background-position: 140% 0; }
+  to   { background-position: -40% 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html.js .garland-run { animation: none; }
+  html.js .gar-back, html.js .gar-front { animation: none; }
   .garland::after { animation: none; opacity: 0; }
 }
 

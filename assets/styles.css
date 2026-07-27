@@ -824,6 +824,81 @@ html.js .garland.in g:nth-of-type(8) { transition-delay: 2.6s; }
   .solar .orb, .solar .sun, .solar .sunhalo { animation: none; }
 }
 
+/* ---------- the sign-on composer ---------- */
+
+.so-form { margin-top: 1.6rem; }
+.so-grid {
+  display: grid;
+  gap: 1.1rem 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+.so-field { margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.so-field.so-wide { grid-column: 1 / -1; }
+.so-field label {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--thread);
+}
+.so-opt { text-transform: none; letter-spacing: 0; color: var(--faint); font-style: italic; }
+.so-field input,
+.so-field select,
+.so-field textarea {
+  font-family: var(--body);
+  font-size: 1rem;
+  color: var(--jasmine);
+  background: var(--night-raised);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  width: 100%;
+}
+.so-field textarea { resize: vertical; line-height: 1.55; }
+.so-field textarea[readonly] {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--faint);
+  background: rgba(6, 9, 16, 0.65);
+}
+.so-field input:focus-visible,
+.so-field select:focus-visible,
+.so-field textarea:focus-visible {
+  outline: 2px solid var(--aurora);
+  outline-offset: 1px;
+  border-color: var(--aurora);
+}
+.so-hint { font-size: 0.86rem; color: var(--faint); line-height: 1.5; }
+.so-check label {
+  font-family: var(--body);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--jasmine);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.so-check input { width: auto; }
+.so-status {
+  margin: 1.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--aurora);
+}
+.so-status.warn { color: var(--marigold); }
+.so-more { margin-top: 1.6rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.so-more summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--thread);
+}
+.so-more summary:focus-visible { outline: 2px solid var(--aurora); outline-offset: 3px; }
+.so-more > *:not(summary) { margin-top: 0.9rem; }
+[data-send][aria-disabled="true"] { opacity: 0.42; pointer-events: none; }
+
 /* ---------- the earth map: one planet, no borders ---------- */
 
 .em {

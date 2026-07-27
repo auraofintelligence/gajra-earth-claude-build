@@ -12,6 +12,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <script defer src="assets/reveal.js"></script>
 <script defer src="assets/aurora.js"></script>
+<script defer src="assets/signon.js"></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -64,7 +65,93 @@
       <p><strong>2.</strong> Add one row under <em>People</em> or <em>Systems</em>: the date, your name, what you work on or with, and one line of what joyful responsible abundance means in your work. That last line is the real signature: the definitions are the commons being built.</p>
       <p><strong>3.</strong> Open a pull request. Merged means signed.</p>
       <p class="muted">Rules, all of them: one line each. Nobody edits anyone else's line. Systems are welcome and sign as systems, with their operator named; pretending to be a person is the one unforgivable move here. Any line is removed on request, no process, no questions.</p>
-      <p class="muted">If a pull request is a wall for you, write to the address on the <a href="licence.html">licence page</a> and your line will be added for you, credited to you.</p>
+      <p class="muted">If a pull request is a wall for you, the composer below writes your line for you and hands it to your own mail or messaging app. It is the same signature by a different road.</p>
+    </div>
+  </section>
+
+  <section class="pad-s">
+    <div class="wrap reveal">
+      <span class="kicker">Without a GitHub account</span>
+      <h2 style="margin-top:0.8rem">Write your line here, send it yourself.</h2>
+      <p class="muted">This composer runs entirely in your browser. Nothing is sent from this page, there is no endpoint behind it, and nothing is stored. You fill it in, it writes the packet, and your own mail or messaging app sends it: which is exactly what makes sending it your consent. Your line is then added by pull request, so the public record still shows the merge.</p>
+
+      <form id="signon-form" class="so-form" novalidate>
+        <div class="so-grid">
+          <p class="so-field">
+            <label for="so-kind">You are signing as</label>
+            <select id="so-kind" name="kind">
+              <option value="person">A person</option>
+              <option value="system">A system</option>
+            </select>
+          </p>
+          <p class="so-field">
+            <label for="so-name">Name for the record</label>
+            <input id="so-name" name="name" type="text" maxlength="80" autocomplete="name">
+          </p>
+          <p class="so-field" id="so-operator-wrap" hidden>
+            <label for="so-operator">Operator, named</label>
+            <input id="so-operator" name="operator" type="text" maxlength="80">
+            <span class="so-hint">A system signs as a system, with a human or an organisation named. Pretending to be a person is the one unforgivable move here.</span>
+          </p>
+          <p class="so-field">
+            <label for="so-place">General place <span class="so-opt">optional</span></label>
+            <input id="so-place" name="place" type="text" maxlength="90" placeholder="Town or island, never an address">
+          </p>
+          <p class="so-field so-wide">
+            <label for="so-work">What you work on, or with <span class="so-opt">optional</span></label>
+            <input id="so-work" name="work" type="text" maxlength="160">
+          </p>
+          <p class="so-field so-wide">
+            <label for="so-means">What joyful responsible abundance means in your work</label>
+            <textarea id="so-means" name="means" rows="3" maxlength="320"></textarea>
+            <span class="so-hint">This line is the real signature. The definitions are the commons being built.</span>
+          </p>
+          <p class="so-field so-wide">
+            <label for="so-url">A link, if you want one on the record <span class="so-opt">optional</span></label>
+            <input id="so-url" name="url" type="url" maxlength="200" inputmode="url">
+          </p>
+          <p class="so-field so-wide so-check">
+            <label><input id="so-map" name="map" type="checkbox"> Show this place on <a href="map.html">the map</a></label>
+            <span class="so-hint">Town or island scale only, and only if you tick this. Leave it clear and you are signed without being placed.</span>
+          </p>
+        </div>
+
+        <p id="signon-status" class="so-status" role="status" aria-live="polite"></p>
+
+        <p class="so-field so-wide">
+          <label for="signon-packet">Your packet</label>
+          <textarea id="signon-packet" rows="9" readonly></textarea>
+        </p>
+
+        <div class="btnrow">
+          <a class="btn" data-send="mail" href="#">Send by email</a>
+          <button class="btn ghost" type="button" data-copy="#signon-packet">Copy the packet</button>
+          <button class="btn ghost" type="button" id="so-share">Share</button>
+        </div>
+
+        <details class="so-more">
+          <summary>Send by SMS or WhatsApp instead</summary>
+          <p class="muted"><span class="chip proposal">Proposal</span> These two open your own messaging app with the packet already written, but GAJRA Earth has no published number yet, so you would need to pick the recipient yourself. Email is the road that works today.</p>
+          <div class="btnrow">
+            <a class="btn ghost" data-send="sms" href="#">Open in SMS</a>
+            <a class="btn ghost" data-send="wa" href="#">Open in WhatsApp</a>
+          </div>
+        </details>
+
+        <details class="so-more">
+          <summary>Taking the pull request path? Here is your row, ready to paste</summary>
+          <p class="so-field so-wide">
+            <label for="signon-row" class="visually-hidden">Your table row</label>
+            <textarea id="signon-row" rows="3" readonly></textarea>
+          </p>
+          <div class="btnrow">
+            <button class="btn ghost" type="button" data-copy="#signon-row">Copy the row</button>
+            <a class="btn ghost" href="https://github.com/auraofintelligence/gajra-earth-claude-build/edit/main/SIGNATORIES.md" rel="noopener">Open the file to paste it</a>
+          </div>
+        </details>
+      </form>
+
+      <p class="muted" style="margin-top:1.4rem">What happens next: your packet is read by a person, your line is added by pull request, and the merge is the signature. If you asked to be on the map, the same pull request adds your general place to <code>data/groups.json</code>. Removal is one message, no process, no questions.</p>
     </div>
   </section>
 

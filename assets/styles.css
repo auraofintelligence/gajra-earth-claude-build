@@ -899,6 +899,29 @@ html.js .garland.in g:nth-of-type(8) { transition-delay: 2.6s; }
 .so-more > *:not(summary) { margin-top: 0.9rem; }
 [data-send][aria-disabled="true"] { opacity: 0.42; pointer-events: none; }
 
+/* ---------- folds: jargon tucked away so plain English never breaks
+   (the pattern is borrowed from the Straddie twin explainer) ---------- */
+
+.fold {
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--aurora);
+  border-radius: 6px;
+  background: var(--night-raised);
+  padding: 0.9rem 1.1rem;
+}
+.fold summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aurora);
+}
+.fold summary:focus-visible { outline: 2px solid var(--aurora); outline-offset: 3px; }
+.fold[open] summary { margin-bottom: 0.8rem; }
+.fold p { margin: 0 0 0.7rem; }
+.fold p:last-child { margin-bottom: 0; }
+
 /* ---------- the listening station list ---------- */
 
 .st-list { list-style: none; padding: 0; margin: 0.8rem 0 0; }

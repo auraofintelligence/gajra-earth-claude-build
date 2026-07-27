@@ -56,10 +56,25 @@ No OpenStreetMap default tiles or any styled basemap. If higher resolution is ev
 needed, NASA GIBS WMTS serves borderless satellite layers, public domain, no API key;
 self-host whatever is used. "Every border a bridge."
 
-## Sign-on packet flow (designed, not yet built)
+## Sign-on packet flow (BUILT, browser side live)
 
-Goal: groups join with no database and no accounts. Pattern proven in
-`minjerribah-wildlife-rescue` (Cloudflare Worker at workers.dev).
+`assets/signon.js` is done and verified. The composer builds the packet in the
+browser and hands it to the person's own mail app; there is no endpoint, no
+storage, no analytics, and sending it yourself is what makes it consent. Email
+is live because the address is real. SMS and WhatsApp are wired but labelled
+Proposal, because no number has been published: fill in the recipient in
+`smsHref` and the WhatsApp link when one exists. The form refuses to let a
+system past without naming its operator, and the generated table row matches
+both `SIGNATORIES.md` shapes exactly (the Systems table has the extra Operator
+column).
+
+`worker/signon-worker.js` is the server side: written, unit-tested, **not
+deployed**. It opens a pull request and never merges, refuses to geocode (map
+entries land with null coordinates and a note demanding they be placed by hand),
+and strips pipe characters so a packet cannot forge extra markdown table cells.
+See `worker/README.md` for the deploy steps and the token scope.
+
+Original design notes, kept because they explain the why:
 
 1. The sign-on page offers three prefilled channels: a `mailto:` link, an SMS body,
    and a WhatsApp `wa.me` link. Each contains the same compact packet, one line of
@@ -81,14 +96,33 @@ Privacy lines that must survive any implementation: general locations only, the
 packet is exactly what the person typed, no analytics, sender contact details go in
 the PR body (private to maintainers) and never into the public JSON.
 
-## Remaining backlog (in Luke's words, reshaped)
+## Field kits and support (BUILT)
 
-- Cherry-pick from `global-founder-atlas` and `straddie-digital-twin-explainer`
-  (check local vs GitHub state first, they are new Claude repos) into GAJRA-focused
-  pages. No UN backing exists; AI for Good is a likely audience to write toward.
-- Starter field kits in the `p4a-xyz-cinema/pages/starter-field-kit.html` mould:
-  tech help, public listening stations, no hard sell, meeting people where they are
-  and asking what joyful responsible abundance means to them.
+`field-kits.html` is the listening station pattern, labelled Proposal because
+nobody has run one. Its point: the definition column in `SIGNATORIES.md` is
+supposed to be filled by the people who have to live inside the three words, and
+a listening station is where that actually happens. `assets/fieldkit.js` is the
+intake tool, built for a phone at a table with no signal: lines are held in
+`localStorage` on that device only, anonymous entries need no name, named
+entries refuse to save without one, and Clear genuinely clears.
+
+`support.html` is the cherry-pick from `global-founder-atlas`: fifteen real
+funders of alignment work, public-interest technology and AI for good, framed
+for signatories rather than for this project. Every claim of relationship is
+explicitly denied on the page, because none exists. The `.fold` pattern
+(jargon behind a `<details>` so the plain-English reading never breaks) is
+borrowed from `straddie-digital-twin-explainer` and is reusable anywhere.
+
+## Remaining backlog
+
+- Per-page map data files: festivals, working groups, AI labs, data centres,
+  grant and tender labs. Each is a small JSON in `data/` plus one embed line.
+  Never invent an entry; every pin traces to a signature or a public record.
+- `straddie-digital-twin-explainer` has a git remote configured but **does not
+  exist on GitHub**, so it is local-only. Worth telling Luke before relying on
+  any link to it.
+- The twin explainer's governing rule is worth adopting here verbatim: "If a
+  sentence here ever reads bigger than its label, the label wins."
 - Model economics: routine passes (copy, embeds, new data files, nav edits) belong
   on Sonnet. Save the heavy model for genuinely hard engine or architecture work.
 

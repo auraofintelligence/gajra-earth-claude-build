@@ -186,6 +186,13 @@ nav.primary a[aria-current="page"] {
   margin: 0 0 0.4rem;
   max-width: none;
 }
+.assoc-join {
+  /* a lead-in line, not part of the org's name: kept quieter so the name
+     underneath still reads as the name */
+  font-size: 0.82em;
+  letter-spacing: 0.2em;
+  color: var(--jasmine-dim);
+}
 .assoc-earth {
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   letter-spacing: 0.12em;
@@ -236,6 +243,9 @@ h3 {
   max-width: 36rem;
   margin: 1.1rem 0 0;
 }
+/* two leads in a row (the hero opener) need a real gap between them,
+   not the tight 1.1rem that separates a lead from the headline above it */
+.lead + .lead { margin-top: 1.6rem; }
 p { margin: 0 0 1rem; max-width: var(--maxw); }
 .muted { color: var(--jasmine-dim); }
 .faint { color: var(--faint); }

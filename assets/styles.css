@@ -174,17 +174,19 @@ nav.primary a[aria-current="page"] {
   color: var(--thread);
 }
 
-/* The association name IS the hero: it is the purpose of the site, so it
-   takes the size, the weight and the moving colour, and the lyric that
-   used to hold that job now sits underneath it as a tagline. */
+/* The masthead. Three voices, one lockup, in a hierarchy you can read from
+   across the room: the invitation, the name it invites you into, and the
+   line that says what the name is for. The moving colour belongs to the
+   three words, because the three words are the entire point of the site. */
 .assoc-eyebrow {
   font-family: var(--mono);
   text-transform: uppercase;
-  font-size: 0.95rem;
-  letter-spacing: 0.18em;
-  line-height: 1.8;
-  color: var(--thread);
-  margin: 0;
+  font-size: clamp(0.92rem, 1.5vw, 1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.5;
+  color: var(--marigold-hi);
+  margin: 0 0 0.7rem;
   max-width: none;
   text-wrap: balance;
 }
@@ -193,34 +195,44 @@ nav.primary a[aria-current="page"] {
   font-family: var(--display);
   font-weight: 400;
   /* sized so the three words hold one line on a desktop width: they are the
-     name, and breaking them mid-name is what made this read as scaffolding */
-  font-size: clamp(2.05rem, 5.4vw, 3.25rem);
-  line-height: 1.06;
-  letter-spacing: -0.012em;
+     name, and breaking them mid-name reads as scaffolding, not as a title */
+  font-size: clamp(2.05rem, 5vw, 3.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.014em;
   color: var(--jasmine);
   text-wrap: balance;
-  margin: 0.35rem 0 0;
+  margin: 0;
   max-width: 15em;
 }
 .ah-earth {
-  /* its own line, smaller: the three words are the name, this is where it lives */
+  /* its own line, white and quieter, so the shimmer above stays the subject */
   display: block;
-  font-size: 0.6em;
-  letter-spacing: 0;
-  line-height: 1.35;
+  font-size: 0.56em;
+  letter-spacing: -0.005em;
+  line-height: 1.5;
+  color: var(--jasmine);
 }
 .beyondline {
+  /* the lyric the site is named after. Second voice, not a footnote: bigger
+     than any body text on the page, and lit rather than dimmed. */
   font-family: var(--display);
-  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
-  line-height: 1.35;
-  color: var(--jasmine-dim);
-  margin: 0.9rem 0 0;
+  font-size: clamp(1.3rem, 2.3vw, 1.55rem);
+  line-height: 1.3;
+  color: var(--jasmine);
+  margin: 1.1rem 0 0;
   max-width: 30rem;
   text-wrap: balance;
 }
-.beyondword { color: var(--marigold-hi); }
+.beyondword {
+  color: var(--marigold-hi);
+  font-style: italic;
+}
 @media (max-width: 34rem) {
-  .assoc-eyebrow { font-size: 0.85rem; letter-spacing: 0.12em; }
+  /* on a phone the name wraps, so on Earth has to grow and the tagline has
+     to give way, or the lockup inverts and the tagline outranks the name */
+  .assoc-eyebrow { letter-spacing: 0.14em; }
+  .ah-earth { font-size: 0.68em; }
+  .beyondline { font-size: 1.32rem; }
 }
 
 h1 {

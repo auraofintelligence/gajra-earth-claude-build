@@ -6,6 +6,13 @@ chips (Record / Proposal / Invitation / Archive) never mixed, all assets self-ho
 CDNs or external fonts, real imagery only (NASA public domain is the vault), the site must
 stay readable with JavaScript off.
 
+## House style
+
+[STYLE-GUIDE.md](STYLE-GUIDE.md) is the type scale, the three typefaces and
+what each is for, the colour tokens, the copy rules and the cache-busting
+convention. Read it before touching CSS. It was written after the site had
+already grown 26 font sizes, so treat any new size as a bug.
+
 ## Repo situation
 
 - This repo (`gajra-earth-claude-build`) is the Claude-built concept site.

@@ -20,6 +20,17 @@
   --violet:       #A493F5;
   --line:         #232B3A;
 
+  /* One type scale. Every size on this site is one of these steps: the
+     alternative was 26 hand-picked sizes that no two sections agreed on. */
+  --t-sm:    0.95rem;
+  --t-label: 1rem;
+  --t-body:  1.125rem;
+  --t-md:    1.3rem;
+  --t-lg:    1.6rem;
+  /* capped so the association name holds one line in the masthead: it is
+     the longest heading on the site, so it sets the ceiling for all of them */
+  --t-hero:  clamp(2.1rem, 6vw, 3.1rem);
+
   --display: Georgia, "Iowan Old Style", "Times New Roman", serif;
   --body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --mono: "Cascadia Mono", Consolas, "SF Mono", "DejaVu Sans Mono", monospace;
@@ -38,7 +49,7 @@ body {
   background: var(--night);
   color: var(--jasmine);
   font-family: var(--body);
-  font-size: 18px;
+  font-size: var(--t-body);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -140,7 +151,7 @@ header.top {
   text-decoration: none;
   color: var(--jasmine);
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: var(--t-body);
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
@@ -150,7 +161,7 @@ nav.primary {
   gap: 1.05rem;
   flex-wrap: wrap;
   margin-left: auto;
-  font-size: 1rem;
+  font-size: var(--t-label);
 }
 nav.primary a {
   color: var(--jasmine-dim);
@@ -167,8 +178,8 @@ nav.primary a[aria-current="page"] {
 /* ---------- type ---------- */
 
 .kicker {
-  font-family: var(--mono);
-  font-size: 1.125rem;
+  font-family: var(--body);
+  font-size: var(--t-body);
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--thread);
@@ -181,7 +192,7 @@ nav.primary a[aria-current="page"] {
 .assoc-eyebrow {
   font-family: var(--mono);
   text-transform: uppercase;
-  font-size: clamp(0.92rem, 1.5vw, 1.08rem);
+  font-size: var(--t-body);
   font-weight: 600;
   letter-spacing: 0.2em;
   line-height: 1.5;
@@ -196,7 +207,7 @@ nav.primary a[aria-current="page"] {
   font-weight: 400;
   /* sized so the three words hold one line on a desktop width: they are the
      name, and breaking them mid-name reads as scaffolding, not as a title */
-  font-size: clamp(2.05rem, 5vw, 3.2rem);
+  font-size: var(--t-hero);
   line-height: 1.04;
   letter-spacing: -0.014em;
   color: var(--jasmine);
@@ -216,7 +227,7 @@ nav.primary a[aria-current="page"] {
   /* the lyric the site is named after. Second voice, not a footnote: bigger
      than any body text on the page, and lit rather than dimmed. */
   font-family: var(--display);
-  font-size: clamp(1.3rem, 2.3vw, 1.55rem);
+  font-size: var(--t-lg);
   line-height: 1.3;
   color: var(--jasmine);
   margin: 1.1rem 0 0;
@@ -232,13 +243,13 @@ nav.primary a[aria-current="page"] {
      to give way, or the lockup inverts and the tagline outranks the name */
   .assoc-eyebrow { letter-spacing: 0.14em; }
   .ah-earth { font-size: 0.68em; }
-  .beyondline { font-size: 1.32rem; }
+  .beyondline { font-size: var(--t-md); }
 }
 
 h1 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.1rem, 6vw, 3.3rem);
+  font-size: var(--t-hero);
   line-height: 1.08;
   letter-spacing: -0.012em;
   text-wrap: balance;
@@ -247,7 +258,7 @@ h1 {
 h2 {
   font-family: var(--display);
   font-weight: 400;
-  font-size: 1.65rem;
+  font-size: var(--t-lg);
   line-height: 1.22;
   letter-spacing: -0.008em;
   text-wrap: balance;
@@ -258,13 +269,13 @@ h3 {
   font-weight: 600;
   /* Never below the paragraph size. Body is 18px and the rem is 16px, so
      1.125rem is the floor for anything that calls itself a heading. */
-  font-size: 1.2rem;
+  font-size: var(--t-md);
   line-height: 1.35;
   margin: 0 0 0.5rem;
 }
 .lead {
   font-family: var(--display);
-  font-size: 1.22rem;
+  font-size: var(--t-md);
   line-height: 1.55;
   color: var(--jasmine-dim);
   max-width: 36rem;
@@ -290,7 +301,7 @@ blockquote {
   border-left: 2px solid var(--thread);
   background: var(--night-raised);
   font-family: var(--display);
-  font-size: 1.08rem;
+  font-size: var(--t-body);
   line-height: 1.6;
 }
 blockquote p:last-child { margin-bottom: 0; }
@@ -308,7 +319,7 @@ pre {
   padding: 1rem 1.2rem;
   overflow-x: auto;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: var(--t-label);
   line-height: 1.55;
 }
 pre code { background: none; border: none; padding: 0; }
@@ -325,12 +336,14 @@ hr.rule {
 .pad   { padding: 3.4rem 0; }
 .pad-s { padding: 2.2rem 0; }
 
-/* ---------- chips: the honesty labels ---------- */
+.notice h2 { font-size: var(--t-md); margin-top: 0.6rem; }
+
+/* ---------- chips: the honesty labels, all one size ---------- */
 
 .chip {
   display: inline-block;
   font-family: var(--mono);
-  font-size: 1.125rem;
+  font-size: var(--t-body);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 0.18rem 0.6rem;
@@ -365,12 +378,12 @@ hr.rule {
 .entry p { margin: 0 0 0.45rem; }
 .entry .src {
   font-family: var(--mono);
-  font-size: 0.95rem;
+  font-size: var(--t-sm);
   letter-spacing: 0.02em;
   margin: 0;
 }
 .chip.q {
-  font-size: 0.78rem;
+  font-size: var(--t-sm);
   padding: 0.1rem 0.5rem;
   border-color: var(--violet);
   color: var(--violet);
@@ -387,7 +400,7 @@ hr.rule {
 }
 .keys span {
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: var(--t-sm);
   letter-spacing: 0.04em;
   color: var(--faint);
   border: 1px solid var(--line);
@@ -408,7 +421,7 @@ hr.rule {
 .ev p { margin: 0 0 0.45rem; }
 .ev-date {
   font-family: var(--mono);
-  font-size: 0.95rem;
+  font-size: var(--t-sm);
   letter-spacing: 0.03em;
   color: var(--marigold-hi);
   display: flex;
@@ -420,12 +433,12 @@ hr.rule {
 .ev-in { color: var(--faint); }
 .ev-where {
   font-family: var(--mono);
-  font-size: 0.92rem;
+  font-size: var(--t-sm);
   color: var(--jasmine-dim);
 }
 .ev-where::before { content: "at "; color: var(--faint); }
 .chip.door {
-  font-size: 0.78rem;
+  font-size: var(--t-sm);
   padding: 0.1rem 0.5rem;
   border-color: var(--aurora);
   color: var(--aurora);
@@ -439,8 +452,8 @@ hr.rule {
 .js .kfilter { display: block; }
 .kfilter label { display: block; margin: 0 0 0.4rem; }
 .kfilter input {
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   width: 100%;
   max-width: 22rem;
   padding: 0.5rem 0.7rem;
@@ -492,12 +505,12 @@ hr.rule {
 .neq .card { border-top: 2px solid var(--thread); }
 .neq .word {
   font-family: var(--display);
-  font-size: 1.5rem;
+  font-size: var(--t-lg);
   display: block;
 }
 .neq .not {
-  font-family: var(--mono);
-  font-size: 1.125rem;
+  font-family: var(--body);
+  font-size: var(--t-body);
   color: var(--oxygen);
   display: block;
   margin-top: 0.3rem;
@@ -509,7 +522,7 @@ hr.rule {
   display: inline-block;
   font-family: var(--body);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--t-label);
   text-decoration: none;
   padding: 0.7rem 1.35rem;
   border-radius: 4px;
@@ -576,10 +589,10 @@ html.js .gar-weave { animation: garlandweave 34s linear infinite; }
 
 .defword {
   font-family: var(--display);
-  font-size: 1.9rem;
+  font-size: var(--t-lg);
   letter-spacing: 0.01em;
 }
-.defword .pos { font-size: 1rem; color: var(--faint); font-style: italic; }
+.defword .pos { font-size: var(--t-label); color: var(--faint); font-style: italic; }
 
 /* ---------- scales ladder ---------- */
 
@@ -603,13 +616,13 @@ html.js .gar-weave { animation: garlandweave 34s linear infinite; }
 }
 .rung.green::before { background: var(--aurora); box-shadow: 0 0 0 3px var(--aurora-soft); }
 .rung .scale-name {
-  font-family: var(--mono);
-  font-size: 1.125rem;
+  font-family: var(--body);
+  font-size: var(--t-body);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--thread);
 }
-.rung h3 { font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin: 0.3rem 0 0.5rem; }
+.rung h3 { font-family: var(--display); font-weight: 400; font-size: var(--t-md); margin: 0.3rem 0 0.5rem; }
 
 /* ---------- questions ---------- */
 
@@ -621,18 +634,18 @@ html.js .gar-weave { animation: garlandweave 34s linear infinite; }
 .q:last-of-type { border-bottom: 1px solid var(--line); }
 .q .qnum {
   font-family: var(--mono);
-  font-size: 1.125rem;
+  font-size: var(--t-body);
   color: var(--aurora);
   letter-spacing: 0.06em;
 }
-.q h3 { font-family: var(--display); font-weight: 400; font-size: 1.3rem; margin: 0.35rem 0 0.6rem; }
+.q h3 { font-family: var(--display); font-weight: 400; font-size: var(--t-md); margin: 0.35rem 0 0.6rem; }
 .q .counts {
   margin: 0.8rem 0 0;
   padding: 0.75rem 1rem;
   background: var(--night-raised);
   border: 1px solid var(--line);
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: var(--t-label);
   color: var(--jasmine-dim);
 }
 .q .counts b { color: var(--aurora); font-weight: 600; }
@@ -640,7 +653,7 @@ html.js .gar-weave { animation: garlandweave 34s linear infinite; }
 /* ---------- tables ---------- */
 
 .tablewrap { overflow-x: auto; max-width: var(--wide); }
-table { border-collapse: collapse; width: 100%; font-size: 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: var(--t-label); }
 th, td {
   text-align: left;
   padding: 0.6rem 0.9rem;
@@ -649,7 +662,7 @@ th, td {
 }
 th {
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--faint);
@@ -676,7 +689,7 @@ footer.end {
   border-top: 1px solid var(--line);
   background: var(--night-deep);
   padding: 2.6rem 0 3rem;
-  font-size: 1rem;
+  font-size: var(--t-label);
 }
 .end-in {
   max-width: var(--wide);
@@ -687,8 +700,8 @@ footer.end {
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 }
 footer.end h4 {
-  font-family: var(--mono);
-  font-size: 1.125rem;
+  font-family: var(--body);
+  font-size: var(--t-body);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--faint);
@@ -704,7 +717,7 @@ footer.end a:hover { color: var(--marigold-hi); }
   padding: 1.6rem 1.35rem 0;
   border-top: 1px solid var(--line);
   color: var(--faint);
-  font-size: 1rem;
+  font-size: var(--t-label);
   line-height: 1.8;
 }
 
@@ -717,7 +730,6 @@ footer.end a:hover { color: var(--marigold-hi); }
   padding: 5.5rem 0 9.5rem;
 }
 .hero.tall { padding: 8rem 0 14rem; }
-.hero.tall h1 { font-size: clamp(2.4rem, 7vw, 4rem); }
 
 canvas.cosmos {
   position: absolute;
@@ -871,15 +883,15 @@ html:not(.js) .seam-light { display: none; }
 .end-nav a:hover { border-color: var(--thread); color: var(--jasmine); }
 .en-next { text-align: right; }
 .en-dir {
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--thread);
 }
 .en-prev .en-dir::before { content: "←  "; }
 .en-next .en-dir::after  { content: "  →"; }
-.en-name { font-family: var(--display); font-size: 1.2rem; line-height: 1.2; }
+.en-name { font-family: var(--display); font-size: var(--t-md); line-height: 1.2; }
 @media (max-width: 34rem) {
   .end-nav { flex-direction: column; }
   .end-nav a { max-width: none; }
@@ -898,8 +910,8 @@ html:not(.js) .seam-light { display: none; }
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -951,8 +963,8 @@ canvas.cosmos { animation: cosmosin 1.8s ease both; }
   right: 0.9rem;
   bottom: 0.9rem;
   z-index: 3;
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.08em;
   color: var(--jasmine-dim);
   background: rgba(11, 14, 21, 0.55);
@@ -998,7 +1010,7 @@ footer.end {
 
 /* the closing question */
 .bigq {
-  font-size: clamp(1.9rem, 5vw, 2.9rem);
+  font-size: var(--t-hero);
   margin: 0;
 }
 
@@ -1006,7 +1018,7 @@ footer.end {
 .neq h3.word {
   font-family: var(--display);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: var(--t-lg);
   margin: 0;
 }
 
@@ -1015,7 +1027,7 @@ footer.end {
 .failname {
   font-family: var(--display);
   font-weight: 400;
-  font-size: 1.28rem;
+  font-size: var(--t-md);
   line-height: 1.25;
   margin: 0 0 0.8rem;
   text-wrap: balance;
@@ -1060,7 +1072,7 @@ footer.end {
   z-index: 2;
   margin: 0;
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0.04em;
   color: rgba(244, 241, 231, 0.82);
   background: rgba(7, 10, 16, 0.6);
@@ -1104,8 +1116,8 @@ footer.end {
 .so-field { margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
 .so-field.so-wide { grid-column: 1 / -1; }
 .so-field label {
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--thread);
@@ -1115,7 +1127,7 @@ footer.end {
 .so-field select,
 .so-field textarea {
   font-family: var(--body);
-  font-size: 1rem;
+  font-size: var(--t-label);
   color: var(--jasmine);
   background: var(--night-raised);
   border: 1px solid var(--line);
@@ -1126,7 +1138,7 @@ footer.end {
 .so-field textarea { resize: vertical; line-height: 1.55; }
 .so-field textarea[readonly] {
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   color: var(--faint);
   background: rgba(6, 9, 16, 0.65);
 }
@@ -1137,10 +1149,10 @@ footer.end {
   outline-offset: 1px;
   border-color: var(--aurora);
 }
-.so-hint { font-size: 1rem; color: var(--faint); line-height: 1.5; }
+.so-hint { font-size: var(--t-label); color: var(--faint); line-height: 1.5; }
 .so-check label {
   font-family: var(--body);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0;
   text-transform: none;
   color: var(--jasmine);
@@ -1151,15 +1163,15 @@ footer.end {
 .so-check input { width: auto; }
 .so-status {
   margin: 1.2rem 0 0;
-  font-size: 1rem;
+  font-size: var(--t-label);
   color: var(--aurora);
 }
 .so-status.warn { color: var(--marigold); }
 .so-more { margin-top: 1.6rem; border-top: 1px solid var(--line); padding-top: 1rem; }
 .so-more summary {
   cursor: pointer;
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--thread);
@@ -1180,8 +1192,8 @@ footer.end {
 }
 .fold summary {
   cursor: pointer;
-  font-family: var(--mono);
-  font-size: 1rem;
+  font-family: var(--body);
+  font-size: var(--t-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--aurora);
@@ -1207,7 +1219,7 @@ footer.end {
   position: absolute;
   top: 0.8rem; right: 0.8rem;
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--faint);
@@ -1260,7 +1272,7 @@ footer.end {
 }
 .em-btn {
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--jasmine);
@@ -1282,18 +1294,18 @@ footer.end {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0.9rem 2.4rem 0.9rem 1rem;
-  font-size: 1rem;
+  font-size: var(--t-label);
   z-index: 3;
 }
 .em-card strong { display: block; margin-top: 0.35rem; }
-.em-card .em-place { display: block; color: var(--faint); font-size: 1rem; margin-top: 0.15rem; }
+.em-card .em-place { display: block; color: var(--faint); font-size: var(--t-label); margin-top: 0.15rem; }
 .em-card p { margin: 0.5rem 0 0.3rem; }
 .em-close {
   position: absolute;
   top: 0.3rem; right: 0.45rem;
   background: none; border: 0;
   color: var(--faint);
-  font-size: 1.3rem;
+  font-size: var(--t-md);
   cursor: pointer;
 }
 .em-fallback img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
@@ -1316,7 +1328,7 @@ footer.end {
   padding-right: 2.6rem;
   color: var(--thread);
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: var(--t-label);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   white-space: nowrap;

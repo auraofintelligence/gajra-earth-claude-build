@@ -12,8 +12,8 @@ and nothing sets a size any other way.
 
 | Token | Size | Job |
 |---|---|---|
-| `--t-sm` | 0.95rem / 15.2px | chips, source lines, dates, table cells |
-| `--t-label` | 1rem / 16px | captions, controls, footer links, small print |
+| `--t-sm` | 0.95rem / 15.2px | source lines, dates, table cells |
+| `--t-label` | 1rem / 16px | chips, captions, controls, footer links, small print |
 | `--t-body` | 1.125rem / 18px | prose. This is the reading size |
 | `--t-md` | 1.3rem / 20.8px | h3, leads, notice headings |
 | `--t-lg` | 1.6rem / 25.6px | h2, the trinity words, the tagline |
@@ -80,6 +80,9 @@ Four, never mixed, defined on [licence.html](licence.html):
 
 `Record` checkable outside this project · `Proposal` designed, not real ·
 `Invitation` open to you now · `Archive` kept, superseded, unedited.
+
+Every chip is a link to that definition, so no page needs a legend explaining
+the system. A legend is the site explaining itself instead of doing itself.
 
 ## Structure
 

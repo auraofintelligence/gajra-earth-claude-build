@@ -343,7 +343,8 @@ hr.rule {
 .chip {
   display: inline-block;
   font-family: var(--mono);
-  font-size: var(--t-body);
+  font-size: var(--t-label);
+  text-decoration: none;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 0.18rem 0.6rem;
@@ -383,7 +384,6 @@ hr.rule {
   margin: 0;
 }
 .chip.q {
-  font-size: var(--t-sm);
   padding: 0.1rem 0.5rem;
   border-color: var(--violet);
   color: var(--violet);
@@ -438,7 +438,6 @@ hr.rule {
 }
 .ev-where::before { content: "at "; color: var(--faint); }
 .chip.door {
-  font-size: var(--t-sm);
   padding: 0.1rem 0.5rem;
   border-color: var(--aurora);
   color: var(--aurora);

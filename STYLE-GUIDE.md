@@ -2,13 +2,15 @@
 
 Written after the fact, on 28 July 2026, because the site had grown 26 font
 sizes and three typefaces competing inside single sections. Everything below is
-the state of the code now, not an aspiration. If a rule and the code disagree,
-the code is the bug.
+the state of the code now, not an aspiration. These are defaults with reasons
+attached, not commandments: if a rule and the code disagree, work out which one
+is wrong before assuming it is the code.
 
 ## Type
 
-**Five steps. There is no sixth.** They live in `:root` in `assets/styles.css`
-and nothing sets a size any other way.
+**Five steps**, in `:root` in `assets/styles.css`. Sizes are set from these
+rather than picked by hand. A sixth would want a reason worth writing down
+here, which is a higher bar than it sounds.
 
 | Token | Size | Job |
 |---|---|---|
@@ -20,18 +22,18 @@ and nothing sets a size any other way.
 | `--t-hero` | clamp(2.1rem, 6vw, 3.1rem) | h1, the closing question |
 
 The hero cap is 3.1rem for a specific reason: "Joyful Responsible Abundance" is
-the longest heading on the site, and it has to hold one line in the masthead.
-Raise the cap and the name breaks in half.
+the longest heading on the site and holds one line in the masthead. Raise the
+cap and the name breaks in half.
 
 Two `em`-relative exceptions, both proportional to a parent by design:
 `.ah-earth` (0.56em of the masthead) and `code` (0.95em of its context).
 
-**No heading is ever smaller than body text.** 18px is the floor. This is not a
-preference, it is what tired eyes and older readers need.
+**Headings sit at or above body text.** 18px is the floor, because tired eyes
+and older readers need it to be.
 
-**No inline `font-size` in HTML.** The one exception is
-`archive/ico-era/index.html`, which is a preserved artefact and must never be
-edited.
+**Sizes live in the stylesheet, not in inline styles**, so the scale stays one
+place. `archive/ico-era/index.html` keeps its own, because it is preserved as
+shipped and is not edited.
 
 ## Typefaces
 
@@ -58,25 +60,33 @@ notes. `--marigold-hi` for accents and invitations, `--thread` for the gold
 rule. `--aurora`, `--oxygen`, `--violet` belong to the kintsugi seams and the
 `.aurtext` gradient.
 
-**One shimmer per screen.** `.aurtext` is the moving gradient. It is on the
-association name in the masthead and nowhere else on that page. A second
-animated gradient in the same view cancels the first.
+**One shimmer per screen.** `.aurtext` is the moving gradient, and a second one
+in the same view cancels the first. It currently sits on the association name
+in the masthead. If a page wants it somewhere else, that is the trade: one of
+them gives it up.
 
 ## Copy
 
 - Australian English. Programmes, not programs. Organisation, not organization.
 - **No em dashes.** Use a colon, a semicolon, a comma or a full stop.
-- No ranking language. Nothing is "the most valuable" or "the smallest useful
-  thing". Every honest answer counts.
-- Front-facing copy never narrates how the site was made. No "an earlier draft
+- Watch the absolutes. Never, always, nobody, only. Most of them are reflexes
+  rather than claims, and an absolute in the copy quietly writes a rule the
+  site then has to keep. "The word never stands here alone" banned the site
+  from discussing joy on its own, which nobody had decided and nobody wanted.
+  Some absolutes earn their place: a promise, a rule the project is binding
+  itself to, a checkable fact. Those stay.
+- Skip the ranking language. "The most valuable" and "the smallest useful
+  thing" both rank answers that are not competing.
+- Front-facing copy stays out of how the site was made. No "an earlier draft
   said", no "the first pass at this".
-- Nothing is described in the present tense unless it exists. Proposals wear the
-  Proposal chip and say so.
+- Present tense is for things that exist. Proposals wear the Proposal chip and
+  say so in words as well.
 - Plain analogies for any large number. Olympic pools, kettles, ferry trips.
 
 ## Honesty chips
 
-Four, never mixed, defined on [licence.html](licence.html):
+Four, defined on [licence.html](licence.html). A claim wears one of them, not
+two:
 
 `Record` checkable outside this project · `Proposal` designed, not real ·
 `Invitation` open to you now · `Archive` kept, superseded, unedited.
@@ -88,7 +98,7 @@ the system. A legend is the site explaining itself instead of doing itself.
 
 - Every page is on the prev/next chain, in the footer, and on
   [site-map.html](site-map.html). The site map walks the chain order.
-- No page ships alone. Plan the page map before building.
+- Pages do not ship alone. Plan the page map before building.
 - Readable with JavaScript off. Every interactive thing has a `<noscript>` or a
   static fallback.
 - No CDN, no external fonts, no analytics, no cookies, no accounts.
@@ -96,8 +106,8 @@ the system. A legend is the site explaining itself instead of doing itself.
 ## Cache
 
 Every `<link rel="stylesheet">` carries `?v=N`. **Bump N in every HTML file
-whenever `styles.css` changes.** Three review rounds were spent looking at new
-markup rendered against an old stylesheet because this was not in place.
+whenever `styles.css` changes.** Three review rounds went into looking at new
+markup rendered against an old stylesheet before this was in place.
 
 ```bash
 python -c "import io,re,glob;[io.open(f,'w',encoding='utf-8',newline='\n').write(re.sub(r'(styles\.css)\?v=\d+',r'\1?v=15',io.open(f,encoding='utf-8').read())) for f in glob.glob('*.html')+glob.glob('*/*.html')+glob.glob('*/*/*.html')]"

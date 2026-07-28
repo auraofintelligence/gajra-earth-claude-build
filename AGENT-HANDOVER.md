@@ -11,7 +11,7 @@ stay readable with JavaScript off.
 [STYLE-GUIDE.md](STYLE-GUIDE.md) is the type scale, the three typefaces and
 what each is for, the colour tokens, the copy rules and the cache-busting
 convention. Read it before touching CSS. It was written after the site had
-already grown 26 font sizes, so treat any new size as a bug.
+already grown 26 font sizes, so a new size wants a reason before it goes in.
 
 ## Repo situation
 

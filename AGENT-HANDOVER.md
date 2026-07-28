@@ -13,6 +13,12 @@ what each is for, the colour tokens, the copy rules and the cache-busting
 convention. Read it before touching CSS. It was written after the site had
 already grown 26 font sizes, so a new size wants a reason before it goes in.
 
+## Reviewing copy without typing much
+
+`python tools/lines.py <page>` numbers every sentence on a page, headings
+marked `##`. Say "kill 14, reword 31 and 32" and the numbers are unambiguous.
+Numbers are positional, so re-run after edits before quoting them again.
+
 ## Repo situation
 
 - This repo (`gajra-earth-claude-build`) is the Claude-built concept site.

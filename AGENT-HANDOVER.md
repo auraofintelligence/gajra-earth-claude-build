@@ -6,6 +6,14 @@ chips (Record / Proposal / Invitation / Archive) never mixed, all assets self-ho
 CDNs or external fonts, real imagery only (NASA public domain is the vault), the site must
 stay readable with JavaScript off.
 
+## Lint before pushing
+
+`python tools/lint.py` is the style guide made executable: em dashes,
+intensifiers, US spelling, cross-project vocabulary, inline sizes, broken
+links, unbalanced markup, stylesheet version drift. Failures block, warnings
+(absolutes, antithesis density) are for a human to judge. CLAUDE.md at the
+repo root carries the voice and scope rules into every future session.
+
 ## House style
 
 [STYLE-GUIDE.md](STYLE-GUIDE.md) is the type scale, the three typefaces and

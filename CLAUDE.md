@@ -24,6 +24,8 @@ happening. So:
   tell.
 - No em dashes. No ranking language. Australian English. Present tense only
   for things that exist.
+- Plain enough to translate: physical images travel, cultural idioms do not.
+  If a phrase would confuse a careful translator, replace it.
 
 ## Scope
 

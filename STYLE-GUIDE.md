@@ -82,6 +82,11 @@ them gives it up.
 - Present tense is for things that exist. Proposals wear the Proposal chip and
   say so in words as well.
 - Plain analogies for any large number. Olympic pools, kettles, ferry trips.
+- Plain enough to translate. The copy should survive a trip through another
+  language or dialect. The test: images built on physical things travel (a
+  garland, a thread, an overflow, a stool with a missing leg), idioms built on
+  shared culture do not (shout a drink, turn on a dime, ball game). When a
+  metaphor is doing real work, keep it physical and name the object.
 
 ## Honesty chips
 

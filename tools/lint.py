@@ -33,6 +33,10 @@ US_SPELLING = re.compile(r'\b(program|organization|center|color|license)s?\b(?![
 
 # Warnings -----------------------------------------------------------------
 ABSOLUTES = re.compile(r'\b(never|always|nobody|no one|everyone|the only)\b', re.I)
+IDIOMS = re.compile(
+    r'(shout(ed)? (you )?a drink|on a dime|on a coin|ball game|'
+    r'moves? the needle|low-hanging fruit|under the hood|out of the gate|'
+    r'in the weeds|whole cloth|game.?changer)', re.I)
 ANTITHESIS = re.compile(
     r"\b\w[\w\s']{2,30}?, (?:not|never) [\w\s']{2,30}?(?=[.,;:])"
     r"|\b\w[\w\s']{2,26}? rather than [\w\s']{2,26}?(?=[.,;:])", re.I)
@@ -87,6 +91,8 @@ def main():
             if sum(l.count('<div') - l.count('</div>') for l in b.split('\n')) != 0:
                 fails.append('%s: unbalanced <div>' % f)
 
+        for m in IDIOMS.finditer(text):
+            warns.append('%s: idiom unlikely to translate "%s"' % (f, m.group(0)))
         for m in ABSOLUTES.finditer(text):
             i = m.start()
             warns.append('%s: absolute "%s" ...%s...' % (f, m.group(0), text[max(0, i - 30):i + 40]))

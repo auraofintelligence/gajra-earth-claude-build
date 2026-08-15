@@ -8,11 +8,12 @@
 <link rel="icon" href="assets/aura-heart-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/aura-heart-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="assets/aura-heart-180.png">
-<link rel="stylesheet" href="assets/styles.css?v=16">
+<link rel="stylesheet" href="assets/styles.css?v=17">
 <script>document.documentElement.classList.add('js')</script>
 <script defer src="assets/reveal.js"></script>
 <script defer src="assets/aurora.js"></script>
 <script defer src="assets/ahead-countdown.js"></script>
+<script defer src="assets/ahead-calendar.js"></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -54,6 +55,19 @@
         <p>Most of what follows is a meeting somebody else is holding. You can watch it, read what comes out of it, and hold it to what it said. That is worth knowing, but it is not participation.</p>
         <p>A few entries are marked <span class="chip door">Open door</span>. Those are consultations, calls for evidence and comment periods: a published process where an ordinary person or a small organisation can put something in writing and have it counted. Those are the ones that matter most here, because <a href="questions.html#q9">Q9</a> asks who the many are and how they are actually asked, and a door nobody walked through is part of that answer.</p>
         <p class="muted">Dates are given as the source states them. Where a source says a month but not a day, the entry says so rather than inventing precision. Defence and military events are left out under the same standing rule as the watch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDAR: drawn by assets/ahead-calendar.js from the entries below.
+       It sits ABOVE the AHEAD:LIST marker on purpose, so a run that replaces
+       the entry list never touches it. Nothing to maintain here by hand. -->
+
+  <section class="pad-s">
+    <div class="wrapw reveal">
+      <h2>The months ahead</h2>
+      <div class="cal" id="calendar">
+        <p class="cal-note">The calendar draws itself from the entries below. With JavaScript switched off it does not appear, and every date, place and source is still on this page in the list.</p>
       </div>
     </div>
   </section>

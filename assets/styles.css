@@ -1412,6 +1412,96 @@ html.js .reveal {
   transition: opacity 0.75s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/* ---------- forward calendar ----------
+   Drawn by ahead-calendar.js from the entries below it. With no JavaScript the
+   container keeps its written fallback, so nothing here is load bearing. The
+   colours follow the page: aurora is a door, marigold is a meeting, violet is
+   today, matching the door chip and the date line. */
+
+.cal { margin: 0 0 1.6rem; }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.4rem 1.6rem;
+}
+.cal-m { width: 100%; border-collapse: collapse; font-family: var(--mono); }
+.cal-m caption {
+  text-align: left;
+  font-family: var(--display);
+  font-size: var(--t-label);
+  color: var(--marigold-hi);
+  padding: 0 0 0.45rem;
+  letter-spacing: 0.02em;
+}
+.cal-m th {
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--faint);
+  padding: 0 0 0.3rem;
+  text-align: center;
+}
+.cal-m td {
+  text-align: center;
+  padding: 1px;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+.cal-n {
+  display: block;
+  padding: 0.34rem 0;
+  border-radius: 4px;
+  color: var(--jasmine-dim);
+}
+.cal-m td.cal-x .cal-n { color: transparent; }
+.cal-m td a { text-decoration: none; display: block; }
+.cal-m td a:hover .cal-n,
+.cal-m td a:focus-visible .cal-n { outline: 1px solid var(--marigold-hi); }
+
+/* A door that is open: tinted run. The day it shuts: solid. */
+.cal-open  .cal-n { background: var(--aurora-soft); color: var(--jasmine); }
+.cal-close .cal-n { background: var(--aurora); color: var(--night); font-weight: 700; }
+/* A meeting: first day solid, the rest of its run tinted. */
+.cal-start .cal-n { background: var(--marigold); color: var(--night); font-weight: 700; }
+.cal-span  .cal-n { background: rgba(242, 169, 59, 0.22); color: var(--jasmine); }
+
+.cal-today .cal-n { box-shadow: inset 0 0 0 1px var(--violet); }
+
+.cal-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 1.2rem 0 0.5rem; }
+.cal-k {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--jasmine-dim);
+  display: inline-flex;
+  align-items: center;
+}
+.cal-k::before {
+  content: "";
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 3px;
+  margin-right: 0.4rem;
+  background: var(--line);
+}
+.cal-k-close::before { background: var(--aurora); }
+.cal-k-open::before  { background: var(--aurora-soft); }
+.cal-k-start::before { background: var(--marigold); }
+.cal-k-today::before { background: transparent; box-shadow: inset 0 0 0 1px var(--violet); }
+
+.cal-note {
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  color: var(--faint);
+  margin: 0.35rem 0 0;
+}
+
+@media (max-width: 420px) {
+  .cal-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+  .cal-m td { font-size: 0.82rem; }
+  /* One column means there is room to make the days a real tap target.
+     A 24px square is not one, on any thumb. */
+  .cal-m .cal-n { padding: 0.95rem 0; }
+}
+
 /* ---------- print: the garland on paper ---------- */
 
 @media print {

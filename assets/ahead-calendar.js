@@ -3,7 +3,19 @@
    Built at read time from the entries further down the page, so the daily
    routine maintains one list and one list only, and the calendar can never
    drift out of step with it. Every date, span and link here is read from the
-   .ev articles' own data-when, data-ends and data-closes attributes.
+   .ev articles' own data-when, data-ends, data-closes and data-days
+   attributes.
+
+   data-days is a comma-separated list of individual dates, for an entry that
+   is several separate meetings rather than one continuous run: three regional
+   forums a month apart, six consultation sessions, two hearings either side of
+   Christmas. Without it those entries had to be written as a span, and the
+   calendar then coloured every day between the first meeting and the last as
+   though something were happening on all of them, which is a month of solid
+   colour standing for three afternoons. When data-days is present it is the
+   only source of meeting marks for that entry and data-ends is ignored. It
+   combines with data-closes, so a door still shows how long is left and still
+   marks the days on which someone can turn up and speak.
 
    Only months that actually carry something get drawn, and the gaps are named
    in a line underneath, because an empty grid for April says less than a
@@ -53,6 +65,12 @@
     var closes = parse(ev.getAttribute('data-closes'));
     var marks = [];
 
+    var listed = [];
+    (ev.getAttribute('data-days') || '').split(',').forEach(function (s) {
+      var t = parse(s.replace(/\s+/g, ''));
+      if (t !== null) listed.push(t);
+    });
+
     if (closes !== null) {
       // A door. The closing day is the one that matters, so it gets the solid
       // mark and the run up to it is tinted, showing how long is left.
@@ -60,13 +78,19 @@
       marks.push({ t: closes, kind: 'close' });
       var from = (starts !== null && starts > today) ? starts : today;
       for (var t = from; t < closes; t += DAY) marks.push({ t: t, kind: 'open' });
-    } else {
+    } else if (!listed.length) {
       if (starts === null) return;
       var last = (ends !== null) ? ends : starts;
       for (var u = starts; u <= last; u += DAY) {
         marks.push({ t: u, kind: (u === starts) ? 'start' : 'span' });
       }
     }
+
+    // Separate meetings, marked one day at a time. Ranked above the tint, so a
+    // day you could turn up on reads as a meeting and not as waiting.
+    listed.forEach(function (t) {
+      if (t !== closes) marks.push({ t: t, kind: 'start' });
+    });
 
     marks.forEach(function (m) {
       if (m.t < today) return;

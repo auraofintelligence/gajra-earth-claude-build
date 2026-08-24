@@ -86,9 +86,31 @@ def check_ahead():
     if not arts:
         fails.append("ahead.html: no entries at all")
 
+    # A bare "2026-09" means a day in September that nobody has published yet, so
+    # it may honestly sit anywhere inside September and no position within that
+    # month is an error. Two things went wrong before this: padding with ljust
+    # gave "2026-0900", and "0" sorts after "-", so a month-only entry landed
+    # after every dated one in its month and got reported as an ordering error
+    # every run. Sort it to the start of the month, then forgive any placement
+    # inside that month.
+    def sort_key(v):
+        return v + "-00" if len(v) == 7 else v
+
+    def out_of_order(prev, cur):
+        if prev[0][:7] == cur[0][:7] and (len(prev[1]) == 7 or len(cur[1]) == 7):
+            return False
+        return prev[0] > cur[0]
+
+    # Headings, in page order, so an ordering complaint can name the two entries
+    # involved instead of only counting them.
+    titles = [
+        re.sub(r"<[^>]+>", "", h).strip()[:60]
+        for h in re.findall(r'<article class="ev"[^>]*>.*?<h3>(.*?)</h3>', s, re.S)
+    ]
+
     today = datetime.date.today()
-    keyed = []
-    for a in arts:
+    order = []
+    for idx, a in enumerate(arts):
         w = re.search(r'data-when="([^"]+)"', a)
         if not w:
             fails.append("ahead.html: an entry has no data-when")
@@ -104,19 +126,40 @@ def check_ahead():
                 parse_date(part, "ahead.html data-days")
         cl = re.search(r'data-closes="([^"]+)"', a)
         end = re.search(r'data-ends="([^"]+)"', a)
-        sort_on = cl.group(1) if cl else (end.group(1) if end else w.group(1))
-        last = parse_date(sort_on, "ahead.html sort key")
-        keyed.append(last or datetime.date.max)
-        if last and last < today:
-            fails.append("ahead.html: an entry has already passed (%s) and should have moved to ahead/index.html" % sort_on)
 
-    # Reported, not failed. "The date that matters" is genuinely ambiguous for a
-    # door that runs several sessions: Charlotte opens 2 September and shuts on
-    # the 29th, so sorting it by its closing date buries the first four sessions.
-    # Flag it for a human and let the routine place it.
-    if keyed != sorted(keyed):
-        n_out = sum(1 for i in range(1, len(keyed)) if keyed[i] < max(keyed[:i]))
-        notes.append("ahead.html: %d entries sit outside strict soonest-first order, worth an eye" % n_out)
+        # Retention: an entry stays until its LAST relevant date passes.
+        last_on = cl.group(1) if cl else (end.group(1) if end else w.group(1))
+        last = parse_date(last_on, "ahead.html last date")
+        if last and last < today:
+            fails.append("ahead.html: an entry has already passed (%s) and should have moved to ahead/index.html" % last_on)
+
+        # Ordering: the page sorts by the first date a reader could still act on,
+        # which is not the retention key. A door whose window opened weeks ago
+        # sorts by when it SHUTS; anything whose own start is still ahead sorts by
+        # that start. That second half is the point: burying Charlotte's
+        # 2 September session under its 29 September closing date would hide four
+        # sessions, and Fort Worth's 10 November hearing under a January closing
+        # date would hide the hearing people can actually attend.
+        already_open = bool(cl) and start is not None and start < today
+        first_on = last_on if already_open else w.group(1)
+        title = titles[idx] if idx < len(titles) else "(heading not found)"
+        order.append((sort_key(first_on), first_on, title))
+
+    # Reported, not failed: adjacent pairs only. Counting every entry that sits
+    # below a running maximum cascades, and a single late entry near the top then
+    # reports most of the page as out of order, which hides a real slip in noise.
+    inversions = [
+        (order[i - 1], order[i])
+        for i in range(1, len(order))
+        if out_of_order(order[i - 1], order[i])
+    ]
+    for prev, cur in inversions:
+        notes.append(
+            "ahead.html: out of order, %s (%s) sits above %s (%s)"
+            % (prev[2], prev[1], cur[2], cur[1])
+        )
+    if not inversions and len(order) > 1:
+        notes.append("ahead.html: entries are in soonest-first order")
 
     heads = re.findall(r"<h3>(.*?)</h3>", s, re.S)
     plain = [re.sub(r"<[^>]+>", "", h).strip() for h in heads]

@@ -128,10 +128,29 @@ def check_ahead():
         end = re.search(r'data-ends="([^"]+)"', a)
 
         # Retention: an entry stays until its LAST relevant date passes.
+        #
+        # "Passes" means passes for the READER, not for the machine running this.
+        # This repo is scanned in Brisbane, UTC+10, which is the front of the
+        # world. A meeting dated D in Oklahoma is still fifteen hours away when
+        # the date here has already turned to D+1, and the last timezone on Earth
+        # sits 22 hours behind Brisbane. Failing on D+1 tells a run to move an
+        # entry to "what already came" for something that has not come, which is
+        # a worse error than carrying it one run longer.
+        #
+        # So the failure needs date D to be over everywhere, which it is by
+        # Brisbane D+1 22:00. Rounding to whole days, this fails from D+2. The
+        # grace day is reported so a run can see the entry sitting in it and say
+        # on the page why it is still there.
         last_on = cl.group(1) if cl else (end.group(1) if end else w.group(1))
         last = parse_date(last_on, "ahead.html last date")
-        if last and last < today:
+        if last and last < today - datetime.timedelta(days=1):
             fails.append("ahead.html: an entry has already passed (%s) and should have moved to ahead/index.html" % last_on)
+        elif last and last < today:
+            notes.append(
+                "ahead.html: an entry dated %s is in the timezone grace day; it has "
+                "passed in Brisbane but not everywhere. Move it next run, and say on "
+                "the page why it is still here." % last_on
+            )
 
         # Ordering: the page sorts by the first date a reader could still act on,
         # which is not the retention key. A door whose window opened weeks ago

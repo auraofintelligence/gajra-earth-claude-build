@@ -159,8 +159,35 @@ def check_ahead():
         # 2 September session under its 29 September closing date would hide four
         # sessions, and Fort Worth's 10 November hearing under a January closing
         # date would hide the hearing people can actually attend.
+        # Two refinements on top of that, both added because a run sorted the
+        # page correctly and this checker then reported the correct order as
+        # wrong.
+        #
+        # One: a meeting already under way is the most immediate thing on the
+        # page and belongs at today, not at the day it started. Sorting the
+        # Pacific Islands Forum by its 30 August start put a meeting sitting
+        # that morning below a window closing that night.
+        #
+        # Two: data-days carries the published dates BETWEEN the start and the
+        # close, and some of them are real deadlines of their own. Colorado's
+        # chatbot rules take comments to 26 October but consider anything sent
+        # by 4 September for the revisions put to the hearing, so 4 September is
+        # the next date a reader can act on and sorting by October hides it.
         already_open = bool(cl) and start is not None and start < today
         first_on = last_on if already_open else w.group(1)
+
+        running = end and start is not None and start <= today <= (
+            parse_date(end.group(1), "ahead.html data-ends") or start
+        )
+        if running:
+            first_on = today.isoformat()
+        elif d:
+            ahead_days = sorted(
+                p for p in d.group(1).split(",")
+                if len(p) == 10 and p >= today.isoformat() and p < first_on
+            )
+            if ahead_days:
+                first_on = ahead_days[0]
         title = titles[idx] if idx < len(titles) else "(heading not found)"
         order.append((sort_key(first_on), first_on, title))
 

@@ -6,6 +6,31 @@ This repository preserves the separate Claude-built July 2026 concept site. It i
 
 **Live site:** https://auraofintelligence.github.io/gajra-earth-claude-build/
 
+<!-- github-organisation:start -->
+
+## Project links and history
+
+- First substantive build: 6 September 2025.
+- GitHub repository: [gajra-earth-claude-build](https://github.com/auraofintelligence/gajra-earth-claude-build).
+- Public site: [visit the public site](https://auraofintelligence.github.io/gajra-earth-claude-build/).
+
+## Related public projects
+
+Each link below reflects an evidenced family, lineage or direct connection. This project has 5 relevant public connections.
+
+### Direct and other supported connections
+
+- [Australian-visa-activity-atlas](https://github.com/auraofintelligence/Australian-visa-activity-atlas) - [public page](https://auraofintelligence.github.io/Australian-visa-activity-atlas/) - explicit cross-reference.
+
+### GAJRA Earth builds
+
+- [GAJRA-earth](https://github.com/auraofintelligence/GAJRA-earth) - [public page](https://auraofintelligence.github.io/GAJRA-earth/) - later build; GAJRA-earth is earlier, explicit cross-reference, ordered build lineage, shared named build family.
+- [GAJRA-earth-infinity](https://github.com/auraofintelligence/GAJRA-earth-infinity) - [public page](https://auraofintelligence.github.io/GAJRA-earth-infinity/) - earlier build; GAJRA-earth-infinity is later, explicit cross-reference, ordered build lineage, shared named build family.
+- [gajra-earth-public-hub](https://github.com/auraofintelligence/gajra-earth-public-hub) - [public page](https://auraofintelligence.github.io/gajra-earth-public-hub/) - earlier build; gajra-earth-public-hub is later, explicit cross-reference, ordered build lineage, shared named build family.
+- [GAJRA_Earth-Space-AI_Summit](https://github.com/auraofintelligence/GAJRA_Earth-Space-AI_Summit) - [public page](https://auraofintelligence.github.io/GAJRA_Earth-Space-AI_Summit/) - explicit cross-reference, shared named build family.
+
+<!-- github-organisation:end -->
+
 GAJRA Earth is the Global Association for Joyful Responsible Abundance on Earth: an open invitation to everyone building or working with intelligent systems to help define what AI alignment is *for*. A destination, not only brakes. Co-defined in public, one signature at a time, the way a garland is strung: one flower at a time. At planetary scale the garland is the aurora, which is why the association wears the name.
 
 ## The site

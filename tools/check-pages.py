@@ -215,7 +215,63 @@ def check_ahead():
 
     doors = s.count("chip door") - 1
     notes.append("ahead.html: %d open doors" % max(doors, 0))
+    check_entry_bodies(s)
     check_jsonl("data/ahead.jsonl")
+
+
+def check_entry_bodies(s):
+    """Three things the structural checks above cannot see, each of which has
+    slipped past a run before.
+
+    An entry with no working URL should have been dropped, and an entry with no
+    place fails the second of the three tests in the routine. Both are easy to
+    lose while rewriting a long entry.
+
+    Keywords are supposed to come from data/watch-keywords.json and nowhere
+    else, three to eight of them, and the visible chips are supposed to say the
+    same thing as data-k. A term invented for one entry makes the archive
+    unsearchable in the one way it was built to be searchable, and it is
+    invisible on the page, because an invented keyword renders exactly like a
+    real one.
+    """
+    import json
+
+    path = os.path.join(ROOT, "data", "watch-keywords.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            vocab = json.load(fh)
+    except (IOError, ValueError) as e:
+        fails.append("data/watch-keywords.json could not be read: %s" % e)
+        return
+    allowed = set()
+    for group in ("region", "who", "what"):
+        allowed |= set(vocab.get(group, []))
+
+    body = s[s.index("<!-- AHEAD:LIST"):]
+    for a in re.findall(r'<article class="ev".*?</article>', body, re.S):
+        h = re.search(r"<h3>(.*?)</h3>", a, re.S)
+        name = " ".join(re.sub(r"<[^>]+>", "", h.group(1)).split())[:50] if h else "(no heading)"
+        if 'class="src"' not in a or 'href="http' not in a:
+            fails.append("ahead.html: no source URL on %s" % name)
+        if 'class="ev-where"' not in a:
+            fails.append("ahead.html: no place on %s" % name)
+
+        k = re.search(r'data-k="([^"]*)"', a)
+        if not k:
+            fails.append("ahead.html: no data-k on %s" % name)
+            continue
+        keys = k.group(1).split()
+        outside = [x for x in keys if x not in allowed]
+        if outside:
+            fails.append("ahead.html: keywords outside the vocabulary on %s: %s"
+                         % (name, ", ".join(outside)))
+        if not 3 <= len(keys) <= 8:
+            notes.append("ahead.html: %d keywords on %s, the routine says three to eight"
+                         % (len(keys), name))
+        chips = re.search(r'<p class="keys">(.*?)</p>', a, re.S)
+        listed = re.findall(r"<span>([^<]+)</span>", chips.group(1)) if chips else []
+        if listed != keys:
+            fails.append("ahead.html: the visible keywords do not match data-k on %s" % name)
 
 
 def check_watch():

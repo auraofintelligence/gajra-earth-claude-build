@@ -219,13 +219,8 @@ def check_ahead():
     check_jsonl("data/ahead.jsonl")
 
 
-def check_entry_bodies(s):
-    """Three things the structural checks above cannot see, each of which has
-    slipped past a run before.
-
-    An entry with no working URL should have been dropped, and an entry with no
-    place fails the second of the three tests in the routine. Both are easy to
-    lose while rewriting a long entry.
+def load_vocab():
+    """The controlled keyword list, or None if it cannot be read.
 
     Keywords are supposed to come from data/watch-keywords.json and nowhere
     else, three to eight of them, and the visible chips are supposed to say the
@@ -242,36 +237,77 @@ def check_entry_bodies(s):
             vocab = json.load(fh)
     except (IOError, ValueError) as e:
         fails.append("data/watch-keywords.json could not be read: %s" % e)
-        return
+        return None
     allowed = set()
     for group in ("region", "who", "what"):
         allowed |= set(vocab.get(group, []))
+    return allowed
+
+
+def check_keywords(article, name, label, allowed):
+    """One entry's keywords, on any page that carries entries."""
+    k = re.search(r'data-k="([^"]*)"', article)
+    if not k:
+        fails.append("%s: no data-k on %s" % (label, name))
+        return
+    keys = k.group(1).split()
+    outside = [x for x in keys if x not in allowed]
+    if outside:
+        fails.append("%s: keywords outside the vocabulary on %s: %s"
+                     % (label, name, ", ".join(outside)))
+    if not 3 <= len(keys) <= 8:
+        notes.append("%s: %d keywords on %s, the routine says three to eight"
+                     % (label, len(keys), name))
+    chips = re.search(r'<p class="keys">(.*?)</p>', article, re.S)
+    listed = re.findall(r"<span>([^<]+)</span>", chips.group(1)) if chips else []
+    if listed != keys:
+        fails.append("%s: the visible keywords do not match data-k on %s" % (label, name))
+
+
+def heading_of(article):
+    h = re.search(r"<h3>(.*?)</h3>", article, re.S)
+    if not h:
+        return "(no heading)"
+    return " ".join(re.sub(r"<[^>]+>", "", h.group(1)).split())[:50]
+
+
+def check_watch_entries(s, label):
+    """The same keyword discipline the ahead page gets, for the watch pages.
+
+    Applied to watch.html and to every month page, because a section that rolls
+    off is supposed to arrive unchanged, and an entry whose chips drifted from
+    its data-k is invisible to the month page's own keyword filter.
+    """
+    allowed = load_vocab()
+    if allowed is None:
+        return
+    for a in re.findall(r'<article class="entry".*?</article>', s, re.S):
+        name = heading_of(a)
+        if 'class="src"' not in a or 'href="http' not in a:
+            fails.append("%s: no source URL on %s" % (label, name))
+        check_keywords(a, name, label, allowed)
+
+
+def check_entry_bodies(s):
+    """Two things the structural checks above cannot see, each of which has
+    slipped past a run before.
+
+    An entry with no working URL should have been dropped, and an entry with no
+    place fails the second of the three tests in the routine. Both are easy to
+    lose while rewriting a long entry. Keywords are checked alongside them.
+    """
+    allowed = load_vocab()
+    if allowed is None:
+        return
 
     body = s[s.index("<!-- AHEAD:LIST"):]
     for a in re.findall(r'<article class="ev".*?</article>', body, re.S):
-        h = re.search(r"<h3>(.*?)</h3>", a, re.S)
-        name = " ".join(re.sub(r"<[^>]+>", "", h.group(1)).split())[:50] if h else "(no heading)"
+        name = heading_of(a)
         if 'class="src"' not in a or 'href="http' not in a:
             fails.append("ahead.html: no source URL on %s" % name)
         if 'class="ev-where"' not in a:
             fails.append("ahead.html: no place on %s" % name)
-
-        k = re.search(r'data-k="([^"]*)"', a)
-        if not k:
-            fails.append("ahead.html: no data-k on %s" % name)
-            continue
-        keys = k.group(1).split()
-        outside = [x for x in keys if x not in allowed]
-        if outside:
-            fails.append("ahead.html: keywords outside the vocabulary on %s: %s"
-                         % (name, ", ".join(outside)))
-        if not 3 <= len(keys) <= 8:
-            notes.append("ahead.html: %d keywords on %s, the routine says three to eight"
-                         % (len(keys), name))
-        chips = re.search(r'<p class="keys">(.*?)</p>', a, re.S)
-        listed = re.findall(r"<span>([^<]+)</span>", chips.group(1)) if chips else []
-        if listed != keys:
-            fails.append("ahead.html: the visible keywords do not match data-k on %s" % name)
+        check_keywords(a, name, "ahead.html", allowed)
 
 
 def check_watch():
@@ -292,7 +328,43 @@ def check_watch():
     for a in re.findall(r'<article class="entry" data-k="([^"]*)"', s):
         if not a.strip():
             fails.append("watch.html: an entry has an empty data-k")
+    check_watch_entries(s, "watch.html")
+    check_month_pages()
     check_jsonl("data/watch.jsonl")
+
+
+def check_month_pages():
+    """Every month page in watch/, since a rolled-off section has to arrive
+    whole: same wording, same links, same tags, and its own insert marker still
+    in place for the next roll-off.
+    """
+    folder = os.path.join(ROOT, "watch")
+    names = sorted(n for n in os.listdir(folder) if re.match(r"^\d{4}-\d{2}\.html$", n))
+    if not names:
+        notes.append("watch/: no month pages yet")
+        return
+    total = 0
+    for name in names:
+        label = "watch/" + name
+        s = read(label)
+        check_balanced("article", s, label)
+        check_balanced("section", s, label)
+        if "MONTH:INSERT" not in s:
+            fails.append("%s: the MONTH:INSERT marker is gone" % label)
+        if "watch-filter.js" not in s:
+            fails.append("%s: the keyword filter script is not loaded" % label)
+        dated = [h.strip() for h in re.findall(r"<h2>(.*?)</h2>", s, re.S)
+                 if re.search(r"\d{4}", h)]
+        month = datetime.datetime.strptime(name[:7], "%Y-%m").strftime("%B %Y")
+        stray = [h for h in dated if month not in h]
+        if stray:
+            fails.append("%s: %d section(s) belong to another month, first is %s"
+                         % (label, len(stray), stray[0]))
+        entries = s.count('<article class="entry"')
+        total += entries
+        notes.append("%s: %d dated sections, %d entries" % (label, len(dated), entries))
+        check_watch_entries(s, label)
+    notes.append("watch/: %d month page(s), %d entries kept" % (len(names), total))
 
 
 def main():

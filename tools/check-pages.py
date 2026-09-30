@@ -216,7 +216,77 @@ def check_ahead():
     doors = s.count("chip door") - 1
     notes.append("ahead.html: %d open doors" % max(doors, 0))
     check_entry_bodies(s)
+    check_ahead_record(s)
     check_jsonl("data/ahead.jsonl")
+
+
+def check_ahead_record(forward):
+    """ahead/index.html, the page entries move to when their date passes.
+
+    Added 1 October 2026, after a run moved four entries there and found that
+    nothing checked the destination at all. The forward page was covered from
+    the start and the record was not, which is the wrong way round: Step 5 of
+    the routine says MOVE, never delete, and a move is only safe if something
+    verifies the entry arrived.
+
+    Four things are checked, each of which would be silent otherwise:
+      - the entry left the forward page. A heading present on both pages means
+        the move was a copy, and the reader then sees the same meeting as both
+        upcoming and past.
+      - the entry carries an outcome. The routine requires a line on what came
+        of it, including a plain statement that nothing was found, because an
+        announcement with no outcome recorded is the finding.
+      - the entry has actually passed. A forward-dated entry sitting in the
+        record is an entry moved a run too early.
+      - source, place and keywords, the same discipline the forward page gets.
+    """
+    label = "ahead/index.html"
+    path = os.path.join(ROOT, "ahead", "index.html")
+    if not os.path.exists(path):
+        fails.append("%s: missing" % label)
+        return
+    s = read("ahead/index.html")
+    check_balanced("article", s, label)
+    check_balanced("section", s, label)
+    if "PAST:INSERT" not in s:
+        fails.append("%s: the PAST:INSERT marker is gone" % label)
+        return
+
+    allowed = load_vocab()
+    body = s[s.index("PAST:INSERT"):]
+    arts = re.findall(r'<article class="ev".*?</article>', body, re.S)
+    notes.append("%s: %d entries kept" % (label, len(arts)))
+    if not arts:
+        fails.append("%s: no entries at all" % label)
+        return
+
+    forward_heads = set(
+        " ".join(re.sub(r"<[^>]+>", "", h).split())
+        for h in re.findall(r"<h3>(.*?)</h3>", forward, re.S)
+    )
+    today = datetime.date.today()
+    for a in arts:
+        name = heading_of(a)
+        full = " ".join(re.sub(r"<[^>]+>", "", re.search(r"<h3>(.*?)</h3>", a, re.S).group(1)).split()) \
+            if re.search(r"<h3>(.*?)</h3>", a, re.S) else ""
+        if full and full in forward_heads:
+            fails.append("%s: %s is still on ahead.html as well, so the move was a copy" % (label, name))
+        if "What came of it" not in a:
+            fails.append("%s: no outcome line on %s" % (label, name))
+        if 'class="src"' not in a or 'href="http' not in a:
+            fails.append("%s: no source URL on %s" % (label, name))
+        if 'class="ev-where"' not in a:
+            fails.append("%s: no place on %s" % (label, name))
+        w = re.search(r'data-when="([^"]+)"', a)
+        if not w:
+            fails.append("%s: an entry has no data-when" % label)
+        else:
+            d = parse_date(w.group(1), label + " data-when")
+            if d and d > today:
+                fails.append("%s: %s is dated %s, which has not passed yet"
+                             % (label, name, w.group(1)))
+        if allowed is not None:
+            check_keywords(a, name, label, allowed)
 
 
 def load_vocab():

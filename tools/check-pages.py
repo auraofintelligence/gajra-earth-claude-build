@@ -141,8 +141,18 @@ def check_ahead():
         # Brisbane D+1 22:00. Rounding to whole days, this fails from D+2. The
         # grace day is reported so a run can see the entry sitting in it and say
         # on the page why it is still there.
-        last_on = cl.group(1) if cl else (end.group(1) if end else w.group(1))
-        last = parse_date(last_on, "ahead.html last date")
+        #
+        # LAST means the latest of start, finish and closing date. A door can
+        # shut before the meetings around it are over (Denton's second hearing
+        # on 27 October, with adoption on 2 December), and taking the closing
+        # date alone failed that entry while it still had a date ahead.
+        last_on, last = None, None
+        for m in (w, end, cl):
+            if not m:
+                continue
+            p = parse_date(m.group(1), "ahead.html last date")
+            if last_on is None or (p and (last is None or p > last)):
+                last_on, last = m.group(1), p
         if last and last < today - datetime.timedelta(days=1):
             fails.append("ahead.html: an entry has already passed (%s) and should have moved to ahead/index.html" % last_on)
         elif last and last < today:

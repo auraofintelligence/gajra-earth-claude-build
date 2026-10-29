@@ -151,6 +151,11 @@ def check_ahead():
             if not m:
                 continue
             p = parse_date(m.group(1), "ahead.html last date")
+            # A bare month ("2026-10") has not passed until the month is over.
+            # parse_date pins it to the 28th for sorting, which failed Bay City
+            # on 30 October with a day of October still to come.
+            if p and len(m.group(1).strip()) == 7:
+                p = (p.replace(day=1) + datetime.timedelta(days=32)).replace(day=1) - datetime.timedelta(days=1)
             if last_on is None or (p and (last is None or p > last)):
                 last_on, last = m.group(1), p
         if last and last < today - datetime.timedelta(days=1):
